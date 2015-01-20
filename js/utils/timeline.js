@@ -380,7 +380,7 @@ TimeLine.prototype.__bindCanvasClick = function (el1, el2) {//canvas/进度线
 //common move func
 TimeLine.prototype._move = function (el ,e) {
     var self = this;
-    el.style.left = e.clientX - el.offsetParent.offsetLeft + 'px';
+    
     console.log('进度线左偏移：' + (e.clientX - el.offsetParent.offsetLeft));
     var currentframe = (e.clientX - self.offset - el.offsetParent.offsetLeft) / self.lineInfo.framewidth + self.timelineoffset;
 
@@ -397,7 +397,8 @@ TimeLine.prototype._move = function (el ,e) {
             self.sbvideoPlayer.pause();
             self.sbvideoPlayer.seek(currentframe);
         }
-    }
+    } else
+        el.style.left = e.clientX - el.offsetParent.offsetLeft + 'px';
     self.currentframe = currentframe;
     if (self.oncurrentframechange) {
         self.sbvideoPlayer.lastcurrentframe = self.currentframe;
@@ -626,17 +627,6 @@ InOutPointResize.prototype = {
         var minCutRange = 25;//最小打点区间
         if (self.isright) {
             pointWidth = (point + 1) * self.lineInfo.framewidth + self.offset;
-            //var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;
-            //if (pointWidth < self.canvaswidth - templeft && inpointwidth < pointWidth) {
-            //    var x = pointWidth;
-            //    x = self.canvaswidth - templeft - x >= 0 ? x : self.canvaswidth - templeft - 0;
-            //    x = x >= self.offset + minCutRange ? x : self.offset + minCutRange;
-            //    els.left = x + 'px';
-            //    self.width = self.canvaswidth - templeft - x;
-            //    els.width = self.width + 'px';
-            //}
-
-
             var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;//入点位置宽度(距离左屏幕)
             if (pointWidth < self.canvaswidth + self.offset && inpointwidth < pointWidth) {
                 var x = pointWidth;
@@ -655,8 +645,6 @@ InOutPointResize.prototype = {
             //    self.width = self.width >= 0 ? self.width : 0;//5px
             //    els.width = self.width + 'px';
             //}
-
-
             var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;//出点位置宽度(距离左屏幕)
             outpointwidth = outpointwidth > 0 ? outpointwidth : self.lineInfo.linewidth;
             if (pointWidth <= self.canvaswidth) {

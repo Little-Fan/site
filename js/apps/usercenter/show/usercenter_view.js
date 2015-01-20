@@ -84,39 +84,49 @@
                 this.userInfo = utility.localStorage.getUserInfo();
             },
             ui: {
-                "oldpsw": ".js-oldpsw",
-                "newpsw": ".js-newpsw",
-                "submit": "#submit-btn"
+                "oldpsw"   : ".js-oldpsw",
+                "newpsw"   : ".js-newpsw",
+                "repeatpsw": ".js-repeatpsw",
+                "submit"   : "#submit-btn"
             },
             events: {
-                "blur @ui.oldpsw": "verifyOldPassword",
-                "blur @ui.newpsw": "verifyNewPassword",
-                "blur @ui.submit": "verifySubmit"
+                "blur @ui.oldpsw"   : "verifyOldPassword",
+                "blur @ui.newpsw"   : "verifyNewPassword",
+                "click @ui.submit"  : "verifySubmit"
             },
-            onRender: function() {
-                /*//修改密码
-                var self = this;
-                this.ui.form.validationEngine('attach', {
-                    addPromptClass: 'formError-small  formError-white',
-                    promptPosition: "centerRight",
-                    autoPositionUpdate: true,
-                    showPrompts: true,
-                    scroll: true,
-                    inlineValidation: true,
-                    focusFirstField: true,
-                    validationEventTriggers: "blur",
-                    onValidationComplete: function (form, valid) {
-                        if (valid) {
-                            var data = {
-                                //userCode: self.userInfo.info.userCode, //取本地存储
-                                oldPassword: self.ui.oldpsw.val(),
-                                newPassword: self.ui.newpsw.val()
-
-                            };
-                            CloudMamManager.trigger('update:password', data);
-                        }
+            verifySubmit : function(){
+                if(this.verifyOldPassword() && this.verifyNewPassword()){
+                    if(this.ui.newpsw.val() === this.ui.repeatpsw.val()){
+                        var data = {
+                            oldPassword: this.ui.oldpsw.val(),
+                            newPassword: this.ui.newpsw.val()
+                        };
+                        CloudMamManager.trigger('update:password', data);
+                    } else {
+                        this.ui.newpsw.next().removeClass("success error").addClass("error").text("密码不一致");
                     }
-                });*/
+                }
+            },
+            verifyOldPassword : function(){
+                return this.reminder(this.ui.oldpsw,"密码格式错误");
+            },
+            verifyNewPassword : function(){
+                return this.reminder(this.ui.newpsw,"密码格式错误");
+            },
+            reminder : function (element,msg) {
+                var reg = new RegExp("^[0-9A-Za-z_]{6,15}$");
+                var val = element.val();
+                if (reg.test(val)){
+                    element.next().removeClass("success error").addClass("success").text("");
+                    return true;
+                } else {
+                    if(val.length === 0 ){
+                        element.next().removeClass("success error").addClass("error").text("不能为空值");
+                    } else {
+                        element.next().removeClass("success error").addClass("error").text(msg);
+                    }
+                    return false;
+                }
             }
         });
 

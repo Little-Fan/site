@@ -177,7 +177,13 @@
                     self.listenTo(CloudMamManager, 'update:password', function (option) {
                         var changepsw = CloudMamManager.request("update:password", option);
                         $.when(changepsw).done(function (res) {
-
+                            if(res.status == 1) {
+                                alert("修改成功！");
+                            } else {
+                                alert(res.msg);
+                            }
+                        }).fail(function (res) {
+                            alert("网络原因，人口太差了！");
                         });
                     });
                 });
