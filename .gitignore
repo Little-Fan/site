@@ -1,3 +1,21 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+# Folder config file
+Desktop.ini
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+# Windows shortcuts
+*.lnk
+
+# 接口配置文件
+js/config.js
+
 #Not Commit list
 *.csproj.user
 *.suo
@@ -13,7 +31,6 @@ components/
 idea
 .DS_Store
 *.DS_Store
-
 lib-cov
 *.seed
 *.log
@@ -22,11 +39,3 @@ lib-cov
 *.out
 *.pid
 *.gz
-
-pids
-logs
-results
-
-
-# js配置文件
-js/config.js
