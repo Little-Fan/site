@@ -73,7 +73,6 @@
             },
             onRender: function() {
                 //注册验证组件
-
             }
         });
 
@@ -85,12 +84,17 @@
                 this.userInfo = utility.localStorage.getUserInfo();
             },
             ui: {
-                "form": "#js-form",
                 "oldpsw": ".js-oldpsw",
-                "newpsw": ".js-newpsw"
+                "newpsw": ".js-newpsw",
+                "submit": "#submit-btn"
+            },
+            events: {
+                "blur @ui.oldpsw": "verifyOldPassword",
+                "blur @ui.newpsw": "verifyNewPassword",
+                "blur @ui.submit": "verifySubmit"
             },
             onRender: function() {
-                //修改密码
+                /*//修改密码
                 var self = this;
                 this.ui.form.validationEngine('attach', {
                     addPromptClass: 'formError-small  formError-white',
@@ -112,7 +116,7 @@
                             CloudMamManager.trigger('update:password', data);
                         }
                     }
-                });
+                });*/
             }
         });
 

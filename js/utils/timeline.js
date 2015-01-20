@@ -514,22 +514,17 @@ InOutPointResize.prototype = {
             //按下元素后，计算当前鼠标与对象计算后的坐标
             self.x = e.clientX - el.offsetWidth;
             self.y = e.clientY - el.offsetHeight;
-            //在支持 setCapture 做些东东
                 elDrag.setCapture ? (
                     //捕捉焦点
                     elDrag.setCapture(),
                     //设置事件 elDrag
-                    $('document').mousemove(function(ev) {
+                    document.onmousemove = function (ev) {
+                        ev = ev || event;
                         mouseMove(ev);
+                        ev.cancelBubble = true;
+                        ev.stopPropagation();
                         return false;
-                    }),
-                    //document.onmousemove = function (ev) {
-                    //    ev = ev || event;
-                    //    mouseMove(ev);
-                    //    ev.cancelBubble = true;
-                    //    ev.stopPropagation();
-                    //    return false;
-                    //},
+                    },
                     document.onmouseup = mouseUp
                 ) : (
                 //绑定事件
@@ -560,7 +555,7 @@ InOutPointResize.prototype = {
                 //左侧
                 else {
                     var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;//出点位置宽度(距离左屏幕)
-                    if (e.clientX <= self.canvaswidth - marginleft  && outpointwidth > e.clientX) {
+                    if (e.clientX <= self.canvaswidth  && outpointwidth > e.clientX) {
                         self.width = e.clientX - self.offset;
                         self.width = self.width >= 0 ? self.width : 0;
                         els.width = self.width + 'px';
@@ -619,37 +614,58 @@ InOutPointResize.prototype = {
     },
     setPointWidth: function (point) {
         var self = this;
-        var el = self.el;
+        var el = self.el; //range
         var els = el.style;
 
         self.lineInfo = self.timeline.lineInfo;
         var inoutpoint = self.timeline.getInOutPoint();
 
-        var pointWidth = Math.floor(point * self.lineInfo.framewidth) + self.offset;
+        var pointWidth = point * self.lineInfo.framewidth + self.offset;//点距离左屏幕距离
 
-        var templeft = 0;//10;
+        var templeft = 0;
         var minCutRange = 25;//最小打点区间
         if (self.isright) {
-            pointWidth = Math.floor((point + 1) * self.lineInfo.framewidth) + self.offset;
-            var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;
-            if (pointWidth < self.canvaswidth - templeft && inpointwidth < pointWidth) {
+            pointWidth = (point + 1) * self.lineInfo.framewidth + self.offset;
+            //var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;
+            //if (pointWidth < self.canvaswidth - templeft && inpointwidth < pointWidth) {
+            //    var x = pointWidth;
+            //    x = self.canvaswidth - templeft - x >= 0 ? x : self.canvaswidth - templeft - 0;
+            //    x = x >= self.offset + minCutRange ? x : self.offset + minCutRange;
+            //    els.left = x + 'px';
+            //    self.width = self.canvaswidth - templeft - x;
+            //    els.width = self.width + 'px';
+            //}
+
+
+            var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;//入点位置宽度(距离左屏幕)
+            if (pointWidth < self.canvaswidth + self.offset && inpointwidth < pointWidth) {
                 var x = pointWidth;
-                x = self.canvaswidth - templeft - x >= 0 ? x : self.canvaswidth - templeft - 0;
-                x = x >= self.offset + minCutRange ? x : self.offset + minCutRange;
-                els.left = x + 'px';
-                self.width = self.canvaswidth - templeft - x;
+                x = self.canvaswidth + self.offset - x >= 0 ? x : self.canvaswidth + self.offset;//最大(末点)
+                x = (x >= self.offset + minCutRange) ? x : self.offset + minCutRange;//最小(距离起点25px)
+                els.left = x - self.offset + 'px';
+                self.width = self.canvaswidth + self.offset - x;
                 els.width = self.width + 'px';
             }
         }
         else {
-            var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;
+            //var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;
+            //outpointwidth = outpointwidth > 0 ? outpointwidth : self.lineInfo.linewidth;
+            //if (pointWidth <= self.canvaswidth - templeft  && outpointwidth > pointWidth) {
+            //    self.width = pointWidth - self.offset;
+            //    self.width = self.width >= 0 ? self.width : 0;//5px
+            //    els.width = self.width + 'px';
+            //}
+
+
+            var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;//出点位置宽度(距离左屏幕)
             outpointwidth = outpointwidth > 0 ? outpointwidth : self.lineInfo.linewidth;
-            if (pointWidth <= self.canvaswidth - templeft  && outpointwidth > pointWidth) {
+            if (pointWidth <= self.canvaswidth) {
                 self.width = pointWidth - self.offset;
-                self.width = self.width >= 0 ? self.width : 0;//5px
+                self.width = self.width >= 0 ? self.width : 0;
                 els.width = self.width + 'px';
             }
         }
+
 
         if (self.isright) {
             self.point = point || Math.floor((el.offsetLeft - self.offset) / self.lineInfo.framewidth);

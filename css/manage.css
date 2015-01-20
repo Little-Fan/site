@@ -2227,7 +2227,8 @@
      text-align: right;
      color:#aaa;
  }
- .-uc-detail li input[type="text"]{
+ .-uc-detail li input[type="text"],
+ .-uc-detail li input[type="password"]{
      float: left;
      border: none;
      width: 400px;
