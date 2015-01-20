@@ -300,9 +300,13 @@ SbVideo.prototype.seek = function (frame, options) {
         console.log('video.currentTime:' + this.video.currentTime);
         if (this.timeline && !this.inoutdrag) {
             //阻止循环设置
-            options && options.noloop ? null : this.timeline.seekTo(frame);
+            if  (!(options && options.noloop))
+                this.timeline.seekTo(frame);
+
+            //options && options.noloop ? null : this.timeline.seekTo(frame);
         }
 
+        //用于显示
         if (self.onseekchange)
             self.onseekchange.apply(self.viewObj, [tc.toString(), tc.getFrames()]);
     }
