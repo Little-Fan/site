@@ -1,0 +1,49 @@
+<div class="share-data clearFix">
+    <h2 class="file-name" data-creatorCode="{{creatorCode}}" data-id="{{id}}">
+        <em class="icon"></em>
+        {{creatorCode}} 分享了
+        <b>{{name}}</b>
+    </h2>
+    <span class="funcs">
+        {{#isLogin }}
+            {{#equal @userInfo.info.userName creatorCode}}
+                <a class="cancel" href="#" data-id="{{id}}">取消分享</a>
+            {{else}}
+                <a class="save" href="#user/login">转存至百灵</a>
+            {{/equal}}
+        {{else}}
+            <a class="save" href="#user/login">转存至百灵</a>
+        {{/isLogin}}
+        <a class="down" href="#">下载
+            <small></small>
+        </a>
+    </span>
+    <div class="profile">
+        <span>此文件分享于{{createTime}}</span>
+        <span class="bar">|</span>
+        <span class="vcnt">
+            {{#if viewedCnt}}
+                {{viewedCnt}}
+            {{else}}
+                0
+            {{/if}}
+            次浏览
+        </span>
+        <span class="dcnt">
+            {{#if downloadedCnt}}
+                {{downloadedCnt}}
+            {{else}}
+                0
+            {{/if}}
+            次下载
+        </span>
+        <span class="tcnt">
+            {{#if savedCnt}}
+                {{savedCnt}}
+            {{else}}
+                0
+            {{/if}}
+            次保存
+        </span>
+    </div>
+</div>

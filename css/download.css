@@ -1,0 +1,602 @@
+﻿@charset "utf-8";
+body {
+    background-color: #292929;
+}
+
+.header {
+    position: relative;
+    height: 65px;
+    width: 100%;
+    min-width: 1000px;
+    background-color: #181818;
+}
+
+.header .logo {
+    float: left;
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    width: 450px;
+    height: 60px;
+    background: url(../images/mcloud/logo.png) no-repeat left center;
+}
+
+.header .logo a {
+    display: block;
+    height: 60px;
+    width: 75px;
+}
+.header .logo h2 {
+    margin-top: 20px;
+    margin-left: 100px;
+    font-size: 20px;
+    color: #FFF;
+}
+
+.header .logo h3 {
+    margin-left: 75px;
+    font: 10px "微软雅黑";
+    color: #8F8F8F;
+}
+
+.header .login-box {
+    float: right;
+    margin-top: 0;
+    margin-right: 20px;
+    width: 470px;
+    vertical-align: middle;
+}
+
+.header .search {
+    position: relative;
+    float: left;
+    height: 100%;
+    line-height: 65px;
+}
+
+#s {
+    display: inline-block;
+    padding-left: 10px;
+    border: 1px solid #000;
+    width: 220px;
+    height: 30px;
+    color: #FFF;
+    background: #2E2E2E url(../images/manage/search.png) no-repeat scroll 200px center;
+}
+
+.header .search-btn {
+    position: absolute;
+    right: 0;
+    top: 18px;
+    width: 45px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.header .info {
+    position: relative;
+    float: right;
+    margin-left: 20px;
+    margin-top: 15px;
+    padding: 0 15px;
+    border: 1px solid #444;
+    width: 130px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.header .info .dd {
+    position: absolute;
+    display: none;
+    width: 160px;
+    left: -1px;
+    top: 35px;
+    z-index: 99;
+    zoom: 1;
+    border: 1px solid #444;
+    border-top: none;
+    background: none repeat scroll 0 0 #181818;
+}
+
+.header .info:hover .dd {
+    display: block;
+}
+
+.header .info .dd div:hover {
+    width: 160px;
+    cursor: pointer;
+    background-color: #047281;
+}
+
+.header .info img {
+    position: absolute;
+    top: 0;
+    left: 4px;
+    margin-top: 4px;
+    width: 29px;
+    height: 27px;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+.header .info img:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.header .info a {
+    color: #fff;
+}
+
+.header .info i {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 10px;
+    height: 8px;
+    background: url(../images/manage/icon.png) no-repeat scroll center center;
+}
+
+.header .people {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 32px;
+    height: 24px;
+    background: url(../images/manage/people.png) no-repeat scroll center center;
+    cursor: pointer;
+}
+
+.header .register-btn,
+.header .login-btn {
+    float: right;
+    height: 65px;
+    margin-right: 20px;
+    font: 16px/65px bold;
+    color: #BFBDBD;
+}
+
+.main {
+    margin-top: 50px;
+}
+
+.box {
+    margin: 0 auto;
+    width: 900px;
+}
+
+.share-data {
+    margin-bottom: 20px;
+}
+
+.share-data h2 {
+    float: left;
+    overflow: hidden;
+    width: 400px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #BFBDBD;
+}
+
+.share-data .icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 30px;
+    height: 27px;
+    background-image: url(../images/download/avatar.png);
+}
+
+.share-data h2 b {
+    color: #FFF;
+}
+
+.funcs {
+    float: right;
+    width: 300px;
+}
+
+.funcs a {
+    display: block;
+    float: left;
+    width: 120px;
+    height: 35px;
+    margin-top: 8px;
+    margin-bottom: 7px;
+    margin-right: 20px;
+    line-height: 35px;
+    text-indent: 45px;
+    color: #EAECEB;
+    background-color: #212121;
+}
+
+.funcs a:hover {
+    background-color: #047281;
+}
+
+.cancel {
+    background: url(../images/download/share_cancle.png) no-repeat 10px center;
+}
+
+.save {
+    background: url(../images/download/icon_2.png) no-repeat 10px center;
+}
+
+.down {
+    background: url(../images/download/icon_1.png) no-repeat 10px center;
+}
+
+.profile {
+    float: left;
+    color: #999;
+    margin: 8px 0 5px;
+}
+
+.profile .vcnt,
+.profile .dcnt {
+    margin-right: 10px;
+}
+
+.profile .bar {
+    color: #999;
+    margin: 0 5px;
+}
+
+.body {
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #202020;
+}
+
+.btn-container {
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    box-shadow: 0 0 0 #FFF,
+    inset 0 1px 0 #363636,
+    0 1px 0 #363636,
+    0 0 0 #FFF;
+    border: 1px solid #1F1F1F;
+    border-left: none;
+    border-right: none;
+}
+
+.select-btn,
+.dow-btn {
+    float: left;
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    background: transparent url('../images/share/btn.png') no-repeat -28px 0;
+}
+
+.select-btn.current {
+    background: transparent url('../images/share/btn.png') no-repeat 0 0;
+}
+
+.dow-btn {
+    margin-left: 10px;
+    width: 70px;
+    color: #FFF;
+    font-weight: bold;
+    background: #181818 none;
+}
+
+.pic {
+    display: inline-block;
+    position: relative;
+    width: 185px;
+    margin: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.pic.active {
+    background-color: #047281;
+}
+
+.pic.active .check {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 25px;
+    height: 25px;
+    background: #047281 url(../images/manage/icon_171.png) no-repeat scroll center center;
+}
+
+.pic dt {
+    position: relative;
+    width: 185px;
+    height: 100px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.pic dt i {
+    position: absolute;
+    display: block;
+    top: 46px;
+    left: 67px;
+    width: 50px;
+    height: 20px;
+    font: 12px/20px bold normal;
+    text-align: center;
+    color: #FFF;
+}
+
+.pic dt img {
+    vertical-align: middle;
+}
+
+.pic dt {
+    position: relative;
+}
+
+.pic .doc {
+    background: url(../images/manage/img_05.png) no-repeat scroll center center;
+}
+
+.pic .audio {
+    background: url(../images/manage/img_03.png) no-repeat scroll center center;
+}
+
+.pic .exe {
+    background: url(../images/manage/img_04.png) no-repeat scroll center center;
+}
+
+.pic .default {
+    background: url(../images/manage/img_051.png) no-repeat scroll center center;
+}
+
+.pic dt span {
+    position: absolute;
+    display: inline-block;
+    top: 23px;
+    width: 80px;
+    height: 26px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.pic .other-style {
+    position: absolute;
+    top: 18px;
+    left: 19px;
+    width: 65px;
+    font: 14px bold;
+    text-align: center;
+}
+
+.pic dd {
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #FFF;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.pic .material-other {
+    height: 100px;
+    width: 185px;
+    background: #000000 50% 50% no-repeat;
+    background: rgba(0, 0, 0, 0.1) 50% 50% no-repeat;
+}
+
+.content-list {
+    border: 2px solid #3b3c3c;
+    padding: 8px;
+    height: 339px;
+}
+.share-list {
+
+}
+.share-list li {
+    position: relative;
+    float: left;
+    width: 124px;
+    padding: 10px 25px;
+    margin: 0 20px 10px;
+}
+.share-list li.select {
+    background-color: #047281;
+}
+.share-list .thumb {
+    position: relative;
+    width: 124px;
+    height: 92px;
+}
+.share-list .thumb-folder {
+    cursor: pointer;
+}
+.share-list .thumb i,
+.share-list .thumb b {
+    display: block;
+    position: absolute;
+}
+.share-list .thumb i {
+    left: 36px;
+    top: 46px;
+    width: 50px;
+    height: 20px;
+    font: 12px/20px bold;
+    text-align: center;
+    color: #fff;
+}
+.share-list .thumb b {
+    left: 42px;
+    top: 26px;
+    width: 40px;
+    height: 40px;
+    background: transparent url(../images/download/play.png);
+}
+.share-list .txt {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font: 12px/30px bold;
+    color: #FFF;
+}
+.share-list .check-icon {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 25px;
+    width: 25px;
+    background: url(../images/manage/icon_171.png) no-repeat center center #047281;
+}
+.share-list .select .check-icon {
+    display: block;
+}
+.control-panel {
+    position: relative;
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+
+.control-panel .crumbs {
+    float: left;
+    padding: 0 0 0 25px;
+    color: #fff;
+}
+.control-panel .crumbs a {
+    color: #fff;
+}
+
+.control-panel .crumbs b {
+    color: #fff;
+    font-weight: normal;
+    margin-right: 5px;
+}
+
+.control-panel .crumbs .item {
+    overflow: hidden;
+    display: inline-block;
+    max-width: 120px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.control-panel .crumbs a:last-child {
+    color: #047281;
+    cursor: default;
+}
+/*选择分页大小*/
+.sort-box {
+    height: 15px;
+    float: right;
+}
+
+.sort-box a {
+    display: inline-block;
+    position: relative;
+    height: 15px;
+    margin-right: 15px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sort-page-size .page-size-current {
+    display: inline-block;
+    height: 15px;
+    width: 38px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 15px;
+}
+
+.sort-page-size:hover .page-size-current {
+    border: 1px solid #444;
+    width: 36px;
+    height: 13px;
+    line-height: 13px;
+}
+
+.sort-page-size b {
+    position: absolute;
+    left: 35px;
+    top: 0;
+}
+.sort-page-size:hover .page-size-select {
+    border-top: medium none;
+    display: block;
+}
+
+.page-size-select {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: 99;
+    background-color: #292929;
+}
+
+.page-size-select li {
+    height: 15px;
+    line-height: 15px;
+    padding-left: 10px;
+    text-align: left;
+    width: 38px;
+}
+
+.hide {
+    display: none;
+}
+
+.pick-box {
+    width: 450px;
+    height: 120px;
+    padding: 20px;
+    border: 1px solid #666;
+    margin: 0 auto;
+}
+.pick-box .share-file-name {
+    display: inline-block;
+    max-width: 200px;
+    padding-left: 5px;
+    vertical-align: bottom;
+}
+.content-list h2 {
+    font-size: 14px;
+    color: #CCC;
+}
+
+.content-list h2 span {
+    padding-right: 5px;
+    color: #FFF;
+}
+.content-list h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #999999;
+}
+#pick-code {
+    display: inline-block;
+    height: 30px;
+    width: 280px;
+    padding: 5px 10px;
+    line-height: 40px;
+    border: 0;
+}
+#pick-btn {
+    height: 40px;
+    width: 100PX;
+    margin-left: 20px;
+    color: #FFF;
+    background-color: #047281;
+}
+

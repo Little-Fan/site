@@ -1,0 +1,51 @@
+﻿<td width="5%">
+    <span class="icon-btn-device">
+        <span class="ico"></span>
+    </span>
+</td>
+<td width="35%">
+    <p>{{taskName}}</p>
+    <i>{{createTime}}</i>
+</td>
+<td width="15%">
+    {{duration}}
+</td>
+<td width="15%">
+    {{#equal status 1}}
+        {{fileSize}}
+    {{/equal}}
+</td>
+<td width="20%">
+    {{!-- // status  0：失败; 1:执行中; 2：完成--}}
+    {{#equal status 1}}
+        <span class="success-transcode control shown"></span>合成成功
+    {{/equal}}
+    {{#equal status 0}}
+        <span class="loading-transcode control shown"></span>正在合成
+    {{/equal}}
+    {{#equal status -1}}
+        <span class="fail-transcode control shown"></span>合成失败
+    {{/equal}}
+</td>
+
+<td width="10%">
+    {{#equal status 1}}
+        <span class="download-transcode control js-download">
+
+        </span>
+        <span class="delete-transcode control js-delete">
+
+        </span>
+    {{else}}
+        <span class="error-transcode control js-error">
+
+        </span>
+        <span class="renewal-transcode control js-renewal">
+
+        </span>
+        <span class="delete-transcode control js-delete">
+
+        </span>
+    {{/equal}}
+</td>
+

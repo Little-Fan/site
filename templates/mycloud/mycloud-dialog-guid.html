@@ -1,0 +1,164 @@
+﻿<div class="transform_box guid_box">
+    <!--<div class="caption">演示文档</div>-->
+    <div class="close"><span>×</span></div>
+    <div class="guid fix js-view"></div>
+</div>
+
+<!--图片放到manage 样式也是-->
+<!--第一步-->
+<script id="firstStep" type="text/x-handlebars-template">
+    <div class="classification guid_content">
+        <em class="cfcleft"></em>
+        <div class="cfcright">
+            <h1>文件分类，清晰明了</h1>
+            <p>文件分类，条件筛选一步到位</p>
+        </div>
+    </div>
+    <div class="guid_tag">
+        <span class="gt_prompt">
+            <span class="gt_ring"></span>
+            不再提示
+        </span>
+        <input class="gt_see my f18 wf js-next" type="button" value="查看功能> " />
+    </div>
+</script>
+<!--第二步-->
+<script id="secondStep" type="text/x-handlebars-template">
+    <div class="guid_drag guid_content">
+        <em class="gd_select"></em>
+        <p>① 单击文件，按住CTRL键可多选。<br />② 自由拖动，拖动文件可直接移动到对应文件夹。<br />③ 拖动上传，将本地文件直接拖入页面，即刻上传。</p>
+    </div>
+    <div class="guid_tag">
+        <span class="gt_prompt">
+            <span class="gt_ring"></span>
+            不再提示
+        </span>
+        <input class="gt_see my f18 wf js-next" type="button" value="基本操作> " />
+    </div>
+</script>
+<!--第三步-->
+<script id="thirdStep" type="text/x-handlebars-template">
+    <div class="guid_operation guid_content">
+        <ul>
+            <li>
+                <em class="gd_upload"></em>
+                <span class="gd_explain">
+                    <h3>上传</h3>
+                    <p>要是不喜欢拖动上传,点我也是可以的哦！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_new"></em>
+                <span class="gd_explain">
+                    <h3>新建</h3>
+                    <p>资料太多？那新建一个文件夹塞进去！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_share"></em>
+                <span class="gd_explain">
+                    <h3>分享</h3>
+                    <p>这素材很棒的,不信分享给你看看！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_download"></em>
+                <span class="gd_explain">
+                    <h3>下载</h3>
+                    <p>你下不下载都没事,反正文件放在这里很安全！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_delete"></em>
+                <span class="gd_explain">
+                    <h3>删除</h3>
+                    <p>什么？她是多余的？那你点我吧！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_more"></em>
+                <span class="gd_explain">
+                    <h3>更多</h3>
+                    <p>他们知道的太多了,所以被我藏起来了！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_rename"></em>
+                <span class="gd_explain">
+                    <h3>重命名</h3>
+                    <p>名字天生的？我可以帮你改！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gd_move"></em>
+                <span class="gd_explain">
+                    <h3>移动</h3>
+                    <p>文件放歪了？点我移一下,没什么大不了！</p>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="guid_tag">
+        <span class="gt_prompt">
+            <span class="gt_ring"></span>
+            不再提示
+        </span>
+        <input class="gt_see my f18 wf js-next" type="button" value="专业工具> " />
+    </div>
+</script>
+<!--第四步-->
+<script id="fourthStep" type="text/x-handlebars-template">
+    <div class="guid_operation guid_tools guid_content">
+        <ul>
+            <li>
+                <em class="gts_list"></em>
+                <span class="gd_explain">
+                    <h3>活动列表</h3>
+                    <p>剪切、转码、分享...所有的活动的进展都在这里！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gts_clip"></em>
+                <span class="gd_explain">
+                    <h3>云端剪辑</h3>
+                    <p>轻松一点，在线剪辑你的素材并拼接成新内容！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gts_video"></em>
+                <span class="gd_explain">
+                    <h3>视频审阅</h3>
+                    <p>没有灵感？那创建一个审阅任务，大家一起来出谋划策！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gts_audio"></em>
+                <span class="gd_explain">
+                    <h3>音频审阅</h3>
+                    <p>音频也可以在线审阅哦！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gts_trans"></em>
+                <span class="gd_explain">
+                    <h3>云端转码</h3>
+                    <p>视频云端转码，网络格式、专业格式随你定义，转码结果更能一键分享下载！</p>
+                </span>
+            </li>
+            <li>
+                <em class="gts_pigeon"></em>
+                <span class="gd_explain">
+                    <h3>一键秒鸽</h3>
+                    <p>将您的素材一键发布到秒鸽平台，让您的创意创造价值！</p>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="guid_tag">
+        <span class="gt_prompt">
+            <span class="gt_ring"></span>
+            不再提示
+        </span>
+        <input class="gt_see my f18 wf" id="close" type="button" value="立即体验> " />
+    </div>
+</script>

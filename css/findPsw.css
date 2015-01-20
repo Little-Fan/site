@@ -1,0 +1,198 @@
+﻿@charset "utf-8";
+body {
+    background-color: #292929;
+}
+
+.regs-header {
+    background: #181818;
+    height: 65px;
+    min-width: 1000px;
+}
+
+.w100{
+    width: 100px;
+}
+.regs-header .logo {
+    float: left;
+    margin-left: 20px;
+    padding-bottom: 3px;
+    padding-top: 2px;
+    width: 450px;
+    height: 60px;
+    background: url("../images/mcloud/logo.png") no-repeat scroll left center transparent;
+}
+.regs-header .logo a {
+    display: inline-block;
+    width: 75px;
+    height: 60px;
+}
+.regs-header .logo span {
+    color: #ffffff;
+    margin-left: 100px;
+    font-size: 16px;
+}
+
+.title-font {
+    font-family: "微软雅黑";
+    font-weight: bold;
+}
+
+.regs-logo{
+    height:250px;
+    background: url("../images/findPsw/logo2.png") no-repeat center;
+}
+.fg-wrapper {
+    width: 80%;
+    min-width:1025px;
+    margin: 0 auto;
+    /*margin-top: 130px;*/
+    border:1px solid #39393b;
+    padding:20px;
+    background:#181818 url("../images/findPsw/bar.png") repeat-x top;
+}
+.fg-title{
+    color: #fff;
+    font-size: 26px;
+    line-height: 60px;
+}
+.fg-find-step {
+    /*width: 1197px;*/
+    height: 40px;
+    background: url("../images/findPsw/test_navigator.png") no-repeat scroll 0 0;
+    /*background-size:984px 160px;*/
+    background-size:100% 160px;
+    margin: 0 auto;
+}
+
+.fg-find-step.first {
+    background-position: 0 0;
+}
+
+.fg-find-step.second {
+    background-position: 0 -40px;
+}
+
+.fg-find-step.thirdly {
+    background-position: 0 -80px;
+}
+
+.fg-find-step.fourthly {
+    background-position: 0 -120px;
+}
+
+.fg-find-step ul li {
+    float: left;
+    width: 25%;
+    line-height: 40px;
+    color: #ffffff;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.fg-content {
+    padding-top: 50px;
+}
+
+.fg-content p {
+    width: 540px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.fg-content p.btn {
+    text-align: center;
+}
+.fg-content p.remind{
+    text-align: center;
+}
+
+.fg-content p label, .fg-content p span,.fg-content p strong, .fg-content p.remind a {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 60px;
+    line-height: 60px;
+    text-align: right;
+    font-family: "微软雅黑";
+    /*font-weight: bold;*/
+    font-size: 20px;
+    color: #ffffff;
+
+}
+.fg-content p.remind strong{
+    padding: 0;
+}
+.fg-content p.remind a{
+    padding-left: 10px;
+    color: #035356;
+    text-decoration: underline;
+}
+.fg-content p label{
+    width: 100px;
+    float: left;
+}
+.fg-content p span{
+    float: left;
+    max-width: 200px;
+    padding-left: 0;
+    text-align: left;
+}
+.fg-content p input {
+    height: 58px;
+    width: 398px;
+    float: right;
+    border: 1px solid #39393b;
+    background-color: #1f1f20;
+    text-indent: 25px;
+    color: #ffffff;
+    font-size: 16px;
+}
+.fg-button, .fg-button:visited {
+    background: #222 url(overlay.png) repeat-x;
+    display: inline-block;
+    padding: 5px 10px 6px;
+    color: #fff;
+    text-decoration: none;
+    /*-moz-border-radius: 6px;
+    -webkit-border-radius: 6px;*/
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    position: relative;
+    cursor: pointer
+}
+.fg-phone-btn{
+    margin-top: 15px;
+    width: 150px;
+    text-align: center;
+}
+.fg-button:hover {
+    background-color: #111;
+    color: #fff;
+}
+
+.fg-button:active {
+    top: 1px;
+}
+
+.fg-button, .fg-button:visited{
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.fg-super.fg-button, .fg-super.fg-button:visited {
+    font-size: 20px;
+    padding: 10px 50px;
+    margin-left:20px;
+}
+.fg-medium.fg-button, .fg-medium.fg-button:visited {
+    font-size: 14px;
+    padding: 10px 15px;
+}
+.fg-blue.fg-button, .fg-blue.fg-button:visited		    { background-color: #035560; }
+.fg-blue.fg-button:hover							{ background-color: #0a8798; }

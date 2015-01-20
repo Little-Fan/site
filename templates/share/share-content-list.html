@@ -1,0 +1,18 @@
+{{#list entitys class="share-list fix"}}
+    {{#equal entityTypeName 'Folder'}}
+    <div class="thumb thumb-folder" data-id="{{shareId}}"  data-contentid="{{contentId}}" data-creatorCode="{{creatorCode}}">
+            <i>{{childrenCount}}</i>
+        {{else}}
+                <div class="thumb" data-id="{{shareId}}"  data-contentid="{{contentId}}" data-creatorCode="{{creatorCode}}">
+                    {{/equal}}
+        {{#equal entityTypeName "Clip"}}
+            <b></b>
+        {{/equal}}
+        {{#equal entityTypeName "Folder"}}
+            <img width="124" height="92" type="{{entityTypeName}}" title="{{name}}" alt="{{name}}" src="images/manage/img_02.png">
+        {{else}}
+            <img width="124" height="92"  title="{{name}}" alt="{{name}}" src="{{keyFramePath}}">
+        {{/equal}}
+    </div>
+    <div class="txt ellipsis">{{name}}</div><i class="check-icon"></i>
+{{/list}}

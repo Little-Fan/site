@@ -1,0 +1,55 @@
+﻿@charset "utf-8";
+body {
+	padding-top: 100px;
+	font-family: 'Microsoft Yahei', Tahoma, Arial;
+	background-color: #2b2c30;
+}
+.content-bg {
+	overflow: hidden;
+	position: relative;
+	width: 624px;
+	height: 650px;
+	margin: 0 auto;
+	padding: 0 37px;
+	background: transparent url("../images/share/bg.png") no-repeat center center;
+}
+.origin {
+	margin-top: 150px;
+	color: #646464;
+}
+.origin b {
+	font-size: 14px;
+	margin-right: 10px;
+}
+.title {
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+	color: #A83A04;
+}
+
+.line-box span {
+	display: inline-block;
+	width: 80px;
+	height: 40px;
+	line-height: 40px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 14px;
+	color: #646464;
+}
+
+.file-location {
+	color: #0077C2;
+}
+.active-time {
+	color: #919191;
+}
+.active-time b {
+	margin-right: 20px;
+	font-size: 14px;
+	color: #F00;
+}
+.comments {
+	color: #1a1a1a;
+}

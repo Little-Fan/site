@@ -1,0 +1,74 @@
+﻿
+{{#equal type 1}}
+    <td width="5%">
+        <span class="icon-btn-device">
+            <span class="ico"></span>
+        </span>
+    </td>
+    <td width="15%">
+        <!-- 0:正常/ 1:不存在或已删除 / 2:已取消分享/ 3:已过期/ 4:素材已被删除/ 5:用户输入的提取码有误 -->
+        {{#equal status 0}}
+            <a style="color: #DFDFDF; text-decoration: underline;" href="{{shortUrl}}" target="_blank">{{name}}</a>
+        {{else}}
+            <i style="text-decoration:line-through;">{{name}}</i>
+        {{/equal}}
+        <!--{{#if expirationTime}}
+            <a style="color: #DFDFDF; text-decoration: underline;" href="{{shortUrl}}">{{name}}</a>
+        {{else}}
+            <i style="text-decoration:line-through;">{{name}}</i>
+        {{/if}}-->
+    </td>
+    <td width="15%">
+        <!--{{#if expirationTime}}
+            还有{{expirationTime}}天过期
+        {{else}}
+            <span style="color: #8F2B2B;">已过期</span>
+        {{/if}}-->
+        
+        {{#equal status 3}}
+            <span style="color: #8F2B2B;">已过期</span>
+        {{else}}
+            {{#equal status 2}}
+                <span style="color: #8F2B2B;">已取消</span>
+            {{else}}
+                还有{{expirationTime}}天过期
+            {{/equal}}
+        {{/equal}}
+    </td>
+    <td width="10%">
+        {{createTime}}
+    </td>
+<td width="15%">
+    <div style="position: relative;">
+        提取码： {{accessCode}}<a class="js-accessCodeCopy" data-accesscode="{{accessCode}}" style="color: #1E8873; margin-left: 5px; ">复制</a>
+    </div>
+</td>
+    <td width="10%">
+        {{#if viewedCnt}}
+            {{viewedCnt}}次浏览
+        {{else}}
+            0次浏览
+        {{/if}}
+    </td>
+    <td width="10%">
+        {{#if downloadedCnt}}
+            {{downloadedCnt}}次下载
+        {{else}}
+            0次下载
+        {{/if}}
+    </td>
+    <td width="10%">
+        {{#if savedCnt}}
+            {{savedCnt}}次保存
+        {{else}}
+            0次保存
+        {{/if}}
+    </td>
+<td width="10%">
+    {{#equal status 2}}
+        <span class="delete-transcode control js-delete" title="删除分享"></span>
+    {{else}}
+        <span class="cancel-share control  js-cancelShare" title="取消分享"></span>
+    {{/equal}}
+</td>
+{{/equal}}

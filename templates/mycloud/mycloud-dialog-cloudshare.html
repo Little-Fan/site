@@ -1,0 +1,70 @@
+﻿<div class="player_box share-form">
+    <div class="caption js-title">百灵分享</div>
+    <div class="close">
+        <span>×</span>
+    </div>
+    <div class="content">
+        <div class="braunshare">
+            <ul>
+                <li class="js-link checked" data-rel=".link-create"><em class="link"></em><p>分享链接</p></li>
+                <li class="js-tweets" data-rel=".share-tweets"><em class="tweets"></em><p>分享至社区</p></li>
+                <li class="js-mailbox" data-rel=".share-mail"><em class="mailbox"></em><p>分享至邮箱</p></li>
+            </ul>
+        </div>
+
+        <!--创建公开链接-->
+        <div class="link-create js-content">
+            <p>生成以下链接地址后，然后复制链接发送给好友！</p>
+            <div class="c_box mt20">
+                <input class="creation my f18 wf" id="create" type="button" value="创建公开链接">
+            </div>
+            <span>可在任务管理下的“下载分享”列表中查看。</span>
+        </div>
+
+        <!--创建链接成功-->
+        <div class="link-success none js-content">
+            <p class="lsucceed">创建公开链接成功!</p>
+            <div class="lsaddr">
+                <input class="address" type="text" value="" />
+                <div class="c_box">
+                    <input class="creation my f18 wf" id="copy" type="button" value="复制链接">
+                    <span class="copytip none">复制成功</span>
+                </div>
+            </div>
+            <p class="lcprompt">复制链接地址，你就可以通过新浪微博、腾讯微博的方式分享给好友！</p>
+        </div>
+
+        <!--分享至微博-->
+        <div class="share-tweets none js-content">
+            <p>将文件的公开下载地址分享至新浪微博、腾讯微博！</p>
+            <ul>
+                <li><a class="sina"> </a></li>
+                <li><a class="tencent"></a></li>
+            </ul>
+        </div>
+
+        <!--分享至邮箱-->
+        <div class="share-mail none js-content">
+            <span>将文件的下载地址发送到好友的文件，最多5人</span>
+            <div class="name-content">
+                <div class="name-cards">
+                    
+                </div>
+                <input type="text" class="input-text"/>
+            </div>
+            <span>邮件内容</span>
+            <textarea class="js-mailContent"></textarea>
+            <div class="proving">
+                <input class="verifycode" type="text" />
+                <img class="js-verifyImg" alt="" src=""/>
+                <!--<p>438P</p>-->
+                <a class="js-changeOther" href="javascript:void(0);">看不清，换一张？</a>
+            </div>
+            <span class="js-errorMsg red"></span>
+            <div class="c_box">
+                <input class="creation my f18 wf" id="share" type="button" value="分享">
+            </div>
+        </div>
+
+    </div>
+</div>

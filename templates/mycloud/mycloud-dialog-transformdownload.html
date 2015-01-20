@@ -1,0 +1,100 @@
+﻿<div class="transform_box transformdownload_box">
+    <div class="caption">转码文件列表</div>
+    <div class="close"><span>×</span></div>
+    <div class="transformdownload fix">
+        <div class="download-network format-container  none">
+            <h3>网络格式
+                {{#transformMore this 1 6}}
+                <div class="option">
+                    <span class="o-more"><b></b>更多</span>
+                    <span class="o-more o-less"><b></b>收起</span>
+                </div>
+                {{/transformMore}}
+            </h3>
+            <div class="format-content">
+                <ul class="format-box clearFix">
+                    {{#each this}}
+                        {{#equal transcodeType 1}}
+                        <li class="js-item">
+                            <div class="format-left">
+                                <a class="transform_{{fileType}}">
+                                    <span>{{fileType}}</span>
+                                </a>
+                                <a class="size">
+                                    <span>{{imageWidth}}*{{imageHeight}}</span>
+                                </a>
+
+                                <div class="setting-icon">
+                                    {{#if expirationTime}}
+                                        <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
+                                        <i class="trans-download" data-contentid="{{contentId}}" title="下载"></i>
+                                    {{else}}
+                                        <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
+                                        <i class="trans-redo" data-contentid="{{contentId}}" title="重新生成"></i>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <span class="txt">
+                                {{#if expirationTime}}
+                                    还有<b>{{expirationTime}}</b>天过期
+                                {{else}}
+                                    <b>已过期</b>
+                                {{/if}}
+                            </span>
+                        </li>
+                        {{/equal }}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="download-definition format-container none">
+            <h3>专业格式
+                {{#transformMore this 2 6}}
+                <div class="option">
+                    <span class="o-more"><b></b>更多</span>
+                    <span class="o-more o-less"><b></b>收起</span>
+                </div>
+                {{/transformMore}}
+            </h3>
+            <div class="format-content">
+                <ul class="format-box clearFix">
+                    {{#each this}}
+                        {{#equal transcodeType 2}}
+                      <li class="js-item">
+                        <div class="format-left">
+                            <a class="standard">
+                                <span>{{fileType}}</span>
+                            </a>
+                            <a class="size">
+                                <span>{{imageWidth}}*{{imageHeight}}</span>
+                            </a>
+
+                            <div class="setting-icon">
+                                {{#if expirationTime}}
+                                <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
+                                <i class="trans-download" data-contentid="{{contentId}}" title="下载"></i>
+                                {{else}}
+                                <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
+                                <i class="trans-redo" data-contentid="{{contentId}}" title="重新生成"></i>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <span class="txt">
+                            {{#if expirationTime}}
+                                还有<b>{{expirationTime}}</b>天过期
+                            {{else}}
+                                <b>已过期</b>
+                            {{/if}}
+
+                        </span>
+                    </li>
+                        {{/equal}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="c_box mt20">
+            <input class="creation my f18 wf" id="wf" type="button" value="继续转码" style="margin-bottom:25px;">
+        </div>
+    </div>
+</div>

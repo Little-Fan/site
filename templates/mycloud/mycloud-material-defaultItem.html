@@ -1,0 +1,13 @@
+﻿<dt>
+    {{#equal status 0}}
+    <span class="status js-status">processing</span>
+    <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/load/loading.gif) 50% 50% no-repeat; background-size: 20%; " ></section>
+    {{else}}
+    <span class="status js-status" style="color:red">failed</span>
+    <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/manage/failed.png) 50% 50% no-repeat; background-size: 35%; "></section>
+    {{/equal}}
+</dt>
+<dd>
+    <a style="width:120px;">{{name}}</a>
+</dd>
+
