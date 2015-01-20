@@ -165,6 +165,8 @@
                         $.when(updating).done(function (res) {
                             if(res.status == 1) {
                                 alert("成功！");
+                            } else {
+                                alert("未知错误，再来一次！");
                             }
                         }).fail(function (res) {
                             alert("网络原因，人口太差了！");
