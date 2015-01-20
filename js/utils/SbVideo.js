@@ -299,8 +299,6 @@ SbVideo.prototype.seek = function (frame, options) {
         this.video.currentframe = frame;
         console.log('video.currentTime:' + this.video.currentTime);
         if (this.timeline && !this.inoutdrag) {
-            //阻止循环设置
-            if  (!(options && options.noloop))
                 this.timeline.seekTo(frame);
 
             //options && options.noloop ? null : this.timeline.seekTo(frame);

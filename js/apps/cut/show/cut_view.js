@@ -309,9 +309,9 @@
                     oncurrentframechange: function (currentFrame, inoutdrag) {
                         //出入点拖拽状态 进度线不跟随
                         self.video.inoutdrag = inoutdrag;
-                        //loop 阻止循环设置timeline 
-                        self.video.seek(currentFrame, { noloop: true });
-                        //向外传播当前播放帧
+                        //阻止循环设置timeline 
+                        self.video.seek(currentFrame);
+                        //向UI传播当前播放帧
                         CloudMamManager.trigger('currentframe:change', currentFrame);
                     },
                     oninoutpointchange: function (inoutpoint) {
