@@ -402,7 +402,7 @@ TimeLine.prototype._move = function (el ,e) {
     if (self.oncurrentframechange) {
         self.sbvideoPlayer.lastcurrentframe = self.currentframe;
         console.log('last current frame: ' + self.sbvideoPlayer.lastcurrentframe);
-        self.oncurrentframechange.apply(self.viewObj, [self.currentframe, false]);
+        self.oncurrentframechange.apply(self.viewObj, [self.currentframe, true]); //false]);
     }
 }
 
