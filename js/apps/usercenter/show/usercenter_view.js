@@ -17,38 +17,54 @@
                 this.sex = "1";
             },
             events: {
-                "click @ui.sex":"selectSex",
-                "blur @ui.realname" : "verifyName",
-                "blur @ui.telphone" : "verifyPhone",
-                "blur @ui.email" : "verifyEmail"
+                "click @ui.sex"    : "selectSex",
+                "blur @ui.realname": "verifyName",
+                "blur @ui.telphone": "verifyPhone",
+                "blur @ui.email"   : "verifyEmail",
+                "click #submit-btn": "submit"
+            },
+            submit : function(e){
+                //三者都通过验证
+                if (this.verifyName() && this.verifyPhone() && this.verifyEmail()){
+                    var data = {
+                        userName: this.ui.realname.val(),
+                        userCode: this.userInfo.info.userCode, //取本地存储
+                        career: '',
+                        email: this.ui.email.val(),
+                        mobileNum: this.ui.telphone.val(),
+                        sex: self.sex ? self.sex : "1"
+                    };
+                    CloudMamManager.trigger('update:personal:info',data);
+                } else {
+                    alert("认真检查一下吧！")
+                }
+            },
+            reminder : function (element,reg,msg) {
+                var val = element.val();
+                if (reg.test(val)){
+                    element.next().removeClass("success error").addClass("success").text("");
+                    return true;
+                } else {
+                    if(val.length === 0 ){
+                        element.next().removeClass("success error").addClass("error").text("不能为空值");
+                    } else {
+                        element.next().removeClass("success error").addClass("error").text(msg);
+                    }
+                    return false;
+                }
             },
             verifyName : function(e){
                 // [\u4E00-\uFA29]|[\uE7C7-\uE7F3]汉字编码范围
-                var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9])*$");
-                var name = this.ui.realname.text();
-                if (reg.test(name)){
-                    return true;
-                } else {
-                    return false;
-                }
+                var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9]){3,12}$");
+                return this.reminder(this.ui.realname,reg,"用户名格式错误！");
             },
             verifyPhone : function(e){
                 var reg = new RegExp("1[3|4|5|7|8|][0-9]{9}");
-                var email = this.ui.email.text();
-                if (reg.test(email)){
-                    return true;
-                } else {
-                    return false;
-                }
+                return this.reminder(this.ui.telphone,reg,"手机格式错误！");
             },
             verifyEmail : function(e){
                 var reg = new RegExp("^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$");
-                var tel = this.ui.telphone.text();
-                if (reg.test(tel)){
-                    return true;
-                } else {
-                    return false;
-                }
+                return this.reminder(this.ui.email,reg,"邮箱格式错误！");
             },
             selectSex: function (e) {
                 var $sex = this.$(e.target);
@@ -57,7 +73,7 @@
             },
             onRender: function() {
                 //注册验证组件
-                CloudMamManager.trigger('update:personal:info');
+
             }
         });
 

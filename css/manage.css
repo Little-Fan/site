@@ -2199,7 +2199,24 @@
 .-uc-detail li.box-btn {
     margin-top: 50px;
 }
- .-uc-detail li a{ font:14px  Microsoft Yahei; color:#65cde1; }
+.-uc-detail li a{ font:14px  Microsoft Yahei; color:#65cde1; }
+.-uc-detail li .verify-tip {
+    float: left;
+    display: block;
+    margin: 3px 0 2px 20px;
+    padding-left: 30px;
+    height: 25px;
+    width: 150px;
+    font: bold 14px/25px "Microsoft Yahei";
+    text-align: left;
+    color: #a02a2a;
+}
+.success {
+    background: transparent url(../images/usercenter/33.png) no-repeat scroll left center;
+}
+.error {
+    background: transparent url(../images/usercenter/11.png) no-repeat scroll left center;
+}
  .-uc-detail li span{
      float: left;
      display:block;
@@ -2211,6 +2228,7 @@
      color:#aaa;
  }
  .-uc-detail li input[type="text"]{
+     float: left;
      border: none;
      width: 400px;
      height: 30px;

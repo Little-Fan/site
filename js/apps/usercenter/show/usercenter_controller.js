@@ -163,10 +163,11 @@
                         //notifierHelper.showLoading();
                         var updating = CloudMamManager.request("update:personal:info", option);
                         $.when(updating).done(function (res) {
-                            //notifierHelper.closeLoading();
+                            if(res.status == 1) {
+                                alert("成功！");
+                            }
                         }).fail(function (res) {
-                            //notifierHelper.closeLoading();
-                            //notifierHelper.tip("修改失败!");
+                            alert("网络原因，人口太差了！");
                         });
                     });
 

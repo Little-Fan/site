@@ -110,8 +110,7 @@ body {
 }
 
 .region input[type="text"],
-.region input[type="password"]
-{
+.region input[type="password"] {
     display: inline-block;
     width: calc(100% - 4px);
     height: 36px;

@@ -474,7 +474,7 @@ var InOutPointResize = function (options) {
     this.elDrag = this.options.elDrag;
     this.isright = this.options.isright || false;
     this.canvaswidth = this.options.canvaswidth || 0;
-    this.offset = this.options.offset || 0;
+    this.offset = this.options.offset || 10;
     this.timeline = this.options.timeline;
 
     //鼠标的 X 和 Y 轴坐标
@@ -492,14 +492,11 @@ var InOutPointResize = function (options) {
 InOutPointResize.prototype = {
     init: function () {
         var self = this;
-        var el = self.el;
-        var elDrag = self.elDrag;
+        var el = self.el;//range span
+        var elDrag = self.elDrag;//cut 区间左右拖拽按钮
         var els = el.style;
-        //$(self.timeline.container).delegate(self.elid, 'click', function (e) {
-        //    e = e || event;
-        //    self.timeline._move(document.getElementById('timeline'), e); //进度线 / canvas点击事件对象
-        //});
-
+       
+        //点击canvas 进度线移动
         $(el).click(function(e) {
             e = e || event;
             self.timeline._move(document.getElementById('currentProgressSpan'), e);
@@ -518,25 +515,27 @@ InOutPointResize.prototype = {
             self.x = e.clientX - el.offsetWidth;
             self.y = e.clientY - el.offsetHeight;
             //在支持 setCapture 做些东东
-            elDrag.setCapture ? (
-                //捕捉焦点
-                elDrag.setCapture(),
-                //设置事件 elDrag
-                    document.onmousemove = function (ev) {
-                        ev = ev || event;
+                elDrag.setCapture ? (
+                    //捕捉焦点
+                    elDrag.setCapture(),
+                    //设置事件 elDrag
+                    $('document').mousemove(function(ev) {
                         mouseMove(ev);
-                        ev.cancelBubble = true;
-                        ev.stopPropagation();
                         return false;
-                    },
+                    }),
+                    //document.onmousemove = function (ev) {
+                    //    ev = ev || event;
+                    //    mouseMove(ev);
+                    //    ev.cancelBubble = true;
+                    //    ev.stopPropagation();
+                    //    return false;
+                    //},
                     document.onmouseup = mouseUp
                 ) : (
                 //绑定事件
                 $(document).bind("mousemove", mouseMove).bind("mouseup", mouseUp)
                 );
             //防止冒泡/默认事件发生
-            e.cancelBubble = true;
-            e.stopPropagation();
             return false;
         });
 
@@ -546,21 +545,21 @@ InOutPointResize.prototype = {
                 var inoutpoint = self.timeline.getInOutPoint();
                 var marginleft = 0;//整个右边距
                 var minCutRange = 25;//最小cut区间
-                //右侧
+                //右侧(左闭右开)
                 if (self.isright) {
-                    var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;
-                    if (e.clientX < self.canvaswidth - marginleft && inpointwidth < e.clientX) {
+                    var inpointwidth = (inoutpoint.inpoint + 1) * self.lineInfo.framewidth + self.offset;//入点位置宽度(距离左屏幕)
+                    if (e.clientX < self.canvaswidth + self.offset && inpointwidth < e.clientX) {
                         var x = e.clientX;
-                        x = self.canvaswidth - marginleft - x >= 0 ? x : self.canvaswidth - marginleft;
-                        x = (x >= self.offset + minCutRange) ? x : self.offset + minCutRange;
-                        els.left = x + 'px';
-                        self.width = self.canvaswidth - marginleft - x;
+                        x = self.canvaswidth + self.offset - x >= 0 ? x : self.canvaswidth + self.offset;//最大(末点)
+                        x = (x >= self.offset + minCutRange) ? x : self.offset + minCutRange;//最小(距离起点25px)
+                        els.left = x - self.offset + 'px';
+                        self.width = self.canvaswidth + self.offset - x;
                         els.width = self.width + 'px';
                     }
                 }
                 //左侧
                 else {
-                    var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;
+                    var outpointwidth = (inoutpoint.outpoint - 1) * self.lineInfo.framewidth + self.offset;//出点位置宽度(距离左屏幕)
                     if (e.clientX <= self.canvaswidth - marginleft  && outpointwidth > e.clientX) {
                         self.width = e.clientX - self.offset;
                         self.width = self.width >= 0 ? self.width : 0;
@@ -569,9 +568,9 @@ InOutPointResize.prototype = {
                 }
 
                 if (self.isright) {
-                    self.point = Math.floor((el.offsetLeft - self.offset) / self.lineInfo.framewidth);
+                    self.point = Math.floor((el.offsetLeft - self.offset) / self.lineInfo.framewidth);//当前帧
                 } else {
-                    self.point = Math.floor(el.offsetWidth / self.lineInfo.framewidth);
+                    self.point = Math.floor(el.offsetWidth / self.lineInfo.framewidth);//当前帧
                 }
 
                 
