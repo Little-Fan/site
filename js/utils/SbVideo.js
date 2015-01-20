@@ -288,7 +288,8 @@ SbVideo.prototype.pause = function () {
 };
 
 //seek到指定帧
-SbVideo.prototype.seek = function (frame) {
+//注意：只有视频/story播放的时候需要seek : timeline.seekTo(frame)
+SbVideo.prototype.seek = function (frame, options) {
     if (TimeCode) {
         var self = this;
         var tc = new TimeCode({ frames: frame, frameRate: this.frameRate });
@@ -298,7 +299,8 @@ SbVideo.prototype.seek = function (frame) {
         this.video.currentframe = frame;
         console.log('video.currentTime:' + this.video.currentTime);
         if (this.timeline && !this.inoutdrag) {
-            this.timeline.seekTo(frame);
+            //阻止循环设置
+            options && options.noloop ? null : this.timeline.seekTo(frame);
         }
 
         if (self.onseekchange)

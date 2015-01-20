@@ -183,7 +183,7 @@
             var templates = {
                 loading: '<img src="./images/load/loading.gif" style="width:60px; height:60px;" alt />',
                 synthesis: '<div class="-xh-synthesize"><p>新素材合成发起成功，请去 <a href="#task/manage/cut">任务管理</a> 中查看合成进度.</p><span class="-xh-closed">x</span></div>',
-                timeout: '<div class="-xh-synthesize"><p>登陆超时啦，请 <a style="color:#047281" href="#user/login">重新登陆！</a></p><span class="-xh-closed">x</span></div>'
+                timeout: '<div class="-xh-synthesize"><p>登录超时啦，请 <a style="color:#047281" href="#user/login">重新登录！</a></p><span class="-xh-closed">x</span></div>'
             }
             
             if (options.type) {

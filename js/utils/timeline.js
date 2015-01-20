@@ -402,7 +402,7 @@ TimeLine.prototype._move = function (el ,e) {
     if (self.oncurrentframechange) {
         self.sbvideoPlayer.lastcurrentframe = self.currentframe;
         console.log('last current frame: ' + self.sbvideoPlayer.lastcurrentframe);
-        self.oncurrentframechange.apply(self.viewObj, [self.currentframe, true]); //false]);
+        self.oncurrentframechange.apply(self.viewObj, [self.currentframe, false]);//inoutdrag cut区间拖拽,进度线不跟随|避免循环设置timeline 进度线
     }
 }
 
