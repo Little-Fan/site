@@ -1,6 +1,6 @@
-﻿define(["app", "apps/common/views", "config", "apps/common/utility", "jquery-ui", "mCustomScrollbar", "backbone.notifier", "jquery.cookie"], function (CloudMamManager, CommonViews, config, utility) {
-    CloudMamManager.module("ShareApp.Share.View", function (View, CloudMamManager, Backbone, Marionette, $, _) {
+﻿define(["app", "apps/common/views", "config", "apps/common/utility", "jquery-ui", "mCustomScrollbar", "backbone.notifier", "jquery.cookie", "notifierHelper"], function (CloudMamManager, CommonViews, config, utility) {
 
+    CloudMamManager.module("ShareApp.Share.View", function (View, CloudMamManager, Backbone, Marionette, $, _) {
         View.ShareLayout = Marionette.Layout.extend({
             template: "share/share-layout",
             regions : {
@@ -158,6 +158,7 @@
                 }
             },
             cancelShare: function(e){
+                console.log(notifier);
                 var id = $(e.currentTarget).data("id");
                 var confirmMsg = notifier.notify({
                     title: "确认取消分享",

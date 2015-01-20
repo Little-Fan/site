@@ -385,20 +385,30 @@ TimeLine.prototype._move = function (el ,e) {
     var currentframe = (e.clientX - self.offset - el.offsetParent.offsetLeft) / self.lineInfo.framewidth + self.timelineoffset;
 
     if (self.lockRange) {
+
         if (currentframe <= self.playRangeInpoint) {
+
+            el.style.left = this.playRangeInpoint * self.lineInfo.framewidth + self.timelineoffset + 'px';
 
             currentframe = self.playRangeInpoint;
             self.sbvideoPlayer.pause();
             self.sbvideoPlayer.seek(currentframe);
         }
-        if (currentframe >= self.playRangeOutpoint) {
+        else if (currentframe >= self.playRangeOutpoint) {
+
+            el.style.left = this.playRangeOutpoint * self.lineInfo.framewidth + self.timelineoffset + 'px';
 
             currentframe = self.playRangeOutpoint;
             self.sbvideoPlayer.pause();
             self.sbvideoPlayer.seek(currentframe);
         }
+        else {
+            el.style.left = e.clientX - el.offsetParent.offsetLeft + 'px';
+        }
+
     } else
         el.style.left = e.clientX - el.offsetParent.offsetLeft + 'px';
+
     self.currentframe = currentframe;
     if (self.oncurrentframechange) {
         self.sbvideoPlayer.lastcurrentframe = self.currentframe;
@@ -430,22 +440,29 @@ TimeLine.prototype.__bindMove = function (el) {
     });
     //移动事件
     function mouseMove(e) {
-        els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
+        
         var currentframe = (e.clientX - self.offset - el.offsetParent.offsetLeft) / self.lineInfo.framewidth + self.timelineoffset;
 
         if (self.lockRange) {
             if (currentframe <= self.playRangeInpoint) {
 
+                el.style.left = this.playRangeInpoint * self.lineInfo.framewidth + self.timelineoffset + 'px';
+
                 currentframe = self.playRangeInpoint;
                 self.sbvideoPlayer.pause();
                 self.sbvideoPlayer.seek(currentframe);
-            }
-            if (currentframe >= self.playRangeOutpoint) {
+            } else if (currentframe >= self.playRangeOutpoint) {
+
+                el.style.left = this.playRangeOutpoint * self.lineInfo.framewidth + self.timelineoffset + 'px';
 
                 currentframe = self.playRangeOutpoint;
                 self.sbvideoPlayer.pause();
                 self.sbvideoPlayer.seek(currentframe);
+            } else {
+                els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
             }
+        } else {
+            els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
         }
         self.currentframe = currentframe;
         if (self.oncurrentframechange) {
