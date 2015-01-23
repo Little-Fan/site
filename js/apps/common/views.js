@@ -145,7 +145,7 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
             logOut: function(e) {
                 request.post("/uic/logout", null, function() {
                     utility.localStorage.clearSidCookie();
-                    utility.localStorage.SetGuideViewFlag(false);
+                    //utility.localStorage.SetGuideViewFlag(false);
                     location.href = 'myspace.html';
                 });
             },
@@ -186,7 +186,7 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
             logOut: function (e) {
                 request.post("/uic/logout", null, function () {
                     utility.localStorage.clearSidCookie();
-                    utility.localStorage.SetGuideViewFlag(false);
+                    //utility.localStorage.SetGuideViewFlag(false);
                     location.href = 'myspace.html';
                 });
             },

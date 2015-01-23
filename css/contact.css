@@ -56,8 +56,7 @@ body {
 }
 .-ct-feedback{
     width:600px;
-    height:430px;
-    border:1px solid #555;
+    border:2px solid #555;
     /*background-color:#181818;*/
 }
 .-ct-feedback p{
@@ -67,34 +66,56 @@ body {
     padding:20px;
 }
 .-ct-question{
-    width:100%;
+    line-height: 22px;
+    width:548px;
     height:150px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    resize: none;
 }
-.-ct-question::-webkit-input-placeholder:after{
-  content:"用户， \A 请将你对百灵的建议或意见发给我们，我们会用心倾听，不断的优化产品。";/* 这里 \A 形成回车符号  */
-}
+
 .-ct-browse{
-    height:80px;
+    overflow: hidden;
     margin-top:20px;
-    /*line-height:60px;*/
+    margin-bottom: 15px;
 }
 .-ct-browse ul {
-    margin-left:100px;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    width:450px;
+    margin-left: 20px;
 }
 .-ct-browse ul li{
-    /*width:100px;*/
-    height:70px;
-    margin: 0 20px;
+    position: relative;
     float:left;
+    height:70px;
+    margin-right: 10px;
+    margin-bottom: 8px;
 }
 .-ct-browse ul li p{
-    /*width:100px;*/
-    text-align:center;
-    line-height:18px;
-    white-space:nowrap;
-    *white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    overflow: hidden;
+    width: 70px;
+    text-align: center;
+    line-height: 18px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.-ct-browse ul li .dz-remove {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    background-color: #6d6d6d;
+}
+.-ct-browse ul li:hover .dz-remove {
+    display: block;
 }
 /*.-ctb-text{
     width:130px !important;
@@ -103,11 +124,21 @@ body {
     float:left;
     margin-top:15px;
 }*/
-.-ctb-btn{
-    width:70px;
-    height:25px;
-    margin-top:17px;
-    float:left;
+.-ctb-btn {
+    display: block;
+    float: left;
+    border: medium none;
+    width: 90px;
+    height: 28px;
+    line-height: 28px;
+    color: #fff;
+    background-color: #047281;
+    cursor: pointer;
+}
+.-ctb-btn:focus {
+    border-color: none;
+    box-shadow: none;
+    outline: 0 none;
 }
 .-ct-adress{
     height:50px;
@@ -119,9 +150,11 @@ body {
 }
 .-ct-adress input{
     width:400px !important;
-    height:30px !important;
+    height:22px !important;
     background-color:#fff !important;
-    text-indent:10px;
+    border: 1px solid #ddd;
+    resize: none;
+    padding: 4px 2px;
 }
 .-ct-send{
     width:160px;

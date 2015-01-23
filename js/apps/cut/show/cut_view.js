@@ -86,9 +86,9 @@
                     self.video.seek(currentframe + 1);
                 });
 
-                this.listenTo(CloudMamManager, 'player:muted', function (option) {
-                    self.video.setMuted(option);
-                });
+                //this.listenTo(CloudMamManager, 'player:muted', function (option) {
+                //    self.video.setMuted(option);
+                //});
 
                 this.listenTo(CloudMamManager, 'volume:change', function (option) {
                     self.video.setVolume(option / 100);
@@ -100,7 +100,7 @@
                     self.video.pause();
                     //重置按钮:player:pause
                     this.trigger('player:ended');
-                    var currentframe = self.video.getcurrentframe();
+                    var currentframe = self.video.lastcurrentframe || self.video.getcurrentframe();
                     //默认初始区间
                     option ? self.timeline.setInOutPoint(currentframe, currentframe + 10) : self.timeline.cleaInOutPoint();
                 });
@@ -279,12 +279,12 @@
                 });
 
                 //注册画廊事件
-                this.ui.prevBtn.click(function(e) {
-                    self.$('.ul-box ul').animate({ 'margin-left': '-=104px' }, 500, function() {});
-                });
-                this.ui.nextBtn.click(function(e) {
-                    self.$('.ul-box ul').animate({ 'margin-left': '+=104px' }, 500, function () { });
-                });
+                //this.ui.prevBtn.click(function(e) {
+                //    self.$('.ul-box ul').animate({ 'margin-left': '-=104px' }, 500, function() {});
+                //});
+                //this.ui.nextBtn.click(function(e) {
+                //    self.$('.ul-box ul').animate({ 'margin-left': '+=104px' }, 500, function () { });
+                //});
             },
             
             onShow: function () {
@@ -312,7 +312,7 @@
                         //阻止循环设置timeline 
                         self.video.seek(currentFrame);
                         //向UI传播当前播放帧
-                        CloudMamManager.trigger('currentframe:change', currentFrame);
+                        CloudMamManager.trigger('currentframe:change', currentFrame, self.video.lastcurrentframe);
                     },
                     oninoutpointchange: function (inoutpoint) {
                         //打点change 事件(显示)
@@ -453,10 +453,11 @@
                         oImg.src = url;
                         if (oImg.fileSize > 0 || (oImg.width > 0 && oImg.height > 0)) {
                             self.ui.keyframe.get(0).src = url;
+                            self.ui.keyframe.addClass('loading');
                             clearInterval(self.timer);
                         } 
                     }
-                }, 1000);
+                }, 300);
             }
         });
 
@@ -471,8 +472,6 @@
             emptyView: null,
             itemViewContainer: ".lists",
             initialize: function () {
-                //story播放状态标识
-                this.storyIsplay = false;
                 this.s_tipShow = false;
                 this.e_tipShow = false;
                 //story播放滚动定位
@@ -512,12 +511,12 @@
 
             storyplay: function (e) {
                 e && e.stopPropagation() && e.preventDefault();
-                this.storyIsplay = !this.storyIsplay;
-                this.ui.storyplay.toggleClass('active');
+                this.ui.storyplay.storyIsplay = !this.ui.storyplay.storyIsplay;
+                this.ui.storyplay.storyIsplay ? this.ui.storyplay.addClass('active') : this.ui.storyplay.removeClass('active');
                 //story 播放
                 var data = this.collection;
 
-                this.trigger('story:play', { data: data, storyIsplay: this.storyIsplay });
+                this.trigger('story:play', { data: data, storyIsplay: this.ui.storyplay.storyIsplay });
             },
 
             onCompositeCollectionRendered: function () {
@@ -705,7 +704,7 @@
             template: "cut/cut-footer-center-featurebar",
             initialize: function () {
                 var self = this;
-                this.muted = false;//音量初始化
+                this.volume = 100;//音量
                 this.playing = false;//播放状态初始化
                 this.listenTo(CloudMamManager, 'player:ended', function () {
                     self.ui.play.removeClass('active');
@@ -740,27 +739,29 @@
             },
             play: function (e) {
                 this.playing = !this.playing;
-                e && e.preventDefault() && e.stopPropagation();
                 this.$(e.target).toggleClass('active');
                 //触发播放器播放暂停
-                this.trigger('player:play',this.playing)
+                this.trigger('player:play', this.playing);
             },
             prev: function (e) {
-                e && e.preventDefault() && e.stopPropagation();
                 //获取上一帧
                 this.trigger('player:setPreFrame');
             },
             next: function (e) {
-                e && e.preventDefault() && e.stopPropagation();
                 //获取下一帧
                 this.trigger('player:setNextFrame');
             },
             _muted: function (e) {
-                this.muted = !this.muted;
-                e && e.preventDefault() && e.stopPropagation();
-                this.$(e.target).toggleClass('active');
-                //设置静音
-                this.trigger('player:muted', this.muted);
+                this.ui.muted.mutedFlag = !this.ui.muted.mutedFlag;
+                if (this.ui.muted.mutedFlag) {
+                    this.$(e.target).addClass('active');
+                    this.trigger('volume:change', 0);
+                    this.$('div.voice_bar').slider('value', 0);
+                } else {
+                    this.$(e.target).removeClass('active');
+                    this.trigger('volume:change', this.volume);
+                    this.$('div.voice_bar').slider('value', this.volume);
+                }
             },
             onRender: function () {
                 var self = this;
@@ -775,8 +776,9 @@
                         change: function (event, ui) { },
                         slide: function (event, ui) {
                             console.log(ui.value);
-                            ui.value ? self.ui.muted.removeClass('active') : self.ui.muted.addClass('active')
+                            ui.value ? self.ui.muted.removeClass('active') : self.ui.muted.addClass('active');
                             self.trigger('volume:change', ui.value);
+                            self.volume = ui.value;
                         }
                         
                     });
@@ -793,6 +795,7 @@
                 this.cut = false;
                 this.inoutpoint = {};//当前打点区间
                 this.currentframe = 0;//当前播放帧
+                this.lastcurrentframe = 0;//非剪切拖拽最后播放帧
                 this.currentSelected = this.options.firstmedia;//当前打点的视频
                 //重置cut状态
                 this.listenTo(CloudMamManager, 'player:reset', function () {
@@ -800,10 +803,10 @@
                     self.ui.cutFragment.removeClass('active');
                 });
 
-                //实时获取当前播放帧
-                this.listenTo(CloudMamManager, 'currentframe:change', function(currentFrame) {
-                    self.currentframe = currentFrame;
-                    console.log('当前cut区间入点帧位置：' + currentFrame);
+                //实时获取当前播放帧,非剪切最后播放帧
+                this.listenTo(CloudMamManager, 'currentframe:change', function (currentFrame, lastcurrentFrame) {
+                    self.currentframe = Math.round(currentFrame);
+                    self.lastcurrentframe = Math.round(lastcurrentFrame);
                 });
 
                 //实时获取打点区间
@@ -884,18 +887,18 @@
 
             setInOutShowValue: function (inoutpoint) {
                 //更新出入点
-                this.ui.inpoint.html(inoutpoint.inpointFrame);
-                this.ui.outpoint.html(inoutpoint.outpointFrame);
+                this.ui.inpoint.html(inoutpoint.inpointTimeCode);
+                this.ui.outpoint.html(inoutpoint.outpointTimeCode);
             },
 
             gotoInpoint: function(e) {
                 //判断区间 与 播放位置 位置关系(3种关系)
                 var self = this;
-                if (this.currentframe >= this.inoutpoint.outpointFrame) {
-                    alert('入点大于出点,请重新打点.');
+                if (this.lastcurrentframe >= this.inoutpoint.outpointFrame) {
+                    alert('入点不能大于出点,请重新打点.');
                 } else {
-                    this.inoutpoint.inpointFrame = Math.round(this.currentframe);
-                    self.setInOutShowValue(self.inoutpoint);
+                    this.inoutpoint.inpointFrame = Math.round(this.lastcurrentframe);
+                    this.ui.inpoint.html(TimeCodeConvert.Frame2Tc(this.lastcurrentframe, 25));
                     self.trigger('seekin:playpoint', self.inoutpoint);
                 }
             },
@@ -903,11 +906,11 @@
             gotoOutpoint: function(e) {
                 //判断区间 与 播放位置 位置关系(3种关系)
                 var self = this;
-                if (this.currentframe <= this.inoutpoint.inpointFrame) {
-                    alert('入点大于出点,请重新打点.');
+                if (this.lastcurrentframe <= this.inoutpoint.inpointFrame) {
+                    alert('入点不能大于出点,请重新打点.');
                 } else {
-                    this.inoutpoint.outpointFrame = Math.round(this.currentframe);
-                    self.setInOutShowValue(self.inoutpoint);
+                    this.inoutpoint.outpointFrame = Math.round(this.lastcurrentframe);
+                    this.ui.outpoint.html(TimeCodeConvert.Frame2Tc(this.lastcurrentframe, 25));
                     self.trigger('seekout:playpoint', self.inoutpoint);
                 }
             },

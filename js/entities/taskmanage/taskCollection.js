@@ -15,7 +15,7 @@
 	        state: {
 	            firstPage: 1,//1-based，（分页从1开始符合阅读习惯)
 	            lastPage: null,//这是基于firstPage 算出来的 不可修改
-	            pageSize: 5,//默认
+	            pageSize: 20,//默认
 	            totalPages: null,
 	            totalRecords: null,//  server-mode 可填此参数
 	            sortKey: "createTime",//默认
@@ -49,7 +49,7 @@
 
 	        //修改本地数据状态：如：总个数/当前页索引/
 	        parseState: function (response, queryParams, state, options) {
-	            if (response.page === 0) { response.page = response.page + 1; }
+	            if (response.page === 0) { response.page = 1;}
 	            return {
 	                totalRecords: response.totalCount,
 	                totalPages: response.totalPage,
@@ -70,7 +70,7 @@
 
 	        initialize: function (options) {
 	            //value为初始化参数
-	            var params = { keyword: "", page: 1, type: "", pagesize: 10, order: -1, sort: "createTime", status: "" };
+	            var params = { keyword: "", page: 1, type: "", pagesize: 20, order: -1, sort: "createTime", status: "" };
 	            this.parameters = new Backbone.Model(params);
 
 	            var self = this;
@@ -82,12 +82,12 @@
 
 	                var keyword = self.parameters.get("keyword");
 	                var status = self.parameters.get("status");
-	                var type = self.parameters.get("type") ? self.parameters.get("type") : 'cut';//默认
+	                var type = self.parameters.get("type") ? self.parameters.get("type") : self.queryParams.type;//默认
 
 	                self.state.sortKey = sort;
 	                self.state.order = order;
 	                self.state.pageSize = pagesize;
-	                self.state.totalPages = page;
+	                //self.state.totalPages = page;
 	                //keyword,status,type需要设置queryParams
 	                self.state.keyword = self.queryParams.keyword = keyword;
 	                self.state.status = self.queryParams.status = status;

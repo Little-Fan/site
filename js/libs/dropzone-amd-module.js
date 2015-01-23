@@ -815,7 +815,8 @@ Emitter.prototype.hasListeners = function(event){
       if (typeof this.options.paramName === "function") {
         return this.options.paramName(n);
       } else {
-        return "" + this.options.paramName + (this.options.uploadMultiple ? "[" + n + "]" : "");
+          return this.options.paramName;     //多文件上传时，用同一个NAME字段
+          // return "" + this.options.paramName + (this.options.uploadMultiple ? "[" + n + "]" : "");
       }
     };
 

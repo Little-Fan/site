@@ -33,15 +33,21 @@
                     self.listenTo(loginView, 'user:login', function (option) {
                         var logining = CloudMamManager.request("user:login", option);
                         $.when(logining).done(function (res) {
-                            var cookie = document.cookie;
-                            //本地存储
-                            utility.localStorage.saveUserInfo(res.userInfo);
-                            //优先判定是否从其他地方导航到登陆
-                            if ($.cookie("source")) {
-                                window.location.href=$.cookie("source");
+                            if (res.status == 200) {
+                                var cookie = document.cookie;
+                                //本地存储
+                                utility.localStorage.saveUserInfo(res.userInfo);
+                                //优先判定是否从其他地方导航到登陆
+                                if ($.cookie("source")) {
+                                    window.location.href = $.cookie("source");
+                                } else {
+                                    CloudMamManager.trigger('user:login');
+                                }
                             } else {
-                                CloudMamManager.trigger('user:login');
+                                loginView.ui.password.val('').focus();
+                                loginView.ui.error.html('用户名或密码错误');
                             }
+
                         }).fail(function (res) {
                             loginView.ui.password.val('').focus();
                             loginView.ui.error.html('用户名或密码错误');

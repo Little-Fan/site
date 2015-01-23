@@ -26,11 +26,11 @@
 
                                 <div class="setting-icon">
                                     {{#if expirationTime}}
-                                        <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
-                                        <i class="trans-download" data-contentid="{{contentId}}" title="下载"></i>
+                                        <i class="trans-delete" data-contentid="{{contentId}}" data-taskid="{{taskId}}"  title="删除"></i>
+                                    <i class="trans-download" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title="下载"></i>
                                     {{else}}
-                                        <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
-                                        <i class="trans-redo" data-contentid="{{contentId}}" title="重新生成"></i>
+                                    <i class="trans-delete" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title=" 删除"></i>
+                                    <i class="trans-redo" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title=" 重新生成"></i>
                                     {{/if}}
                                 </div>
                             </div>
@@ -71,11 +71,11 @@
 
                             <div class="setting-icon">
                                 {{#if expirationTime}}
-                                <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
-                                <i class="trans-download" data-contentid="{{contentId}}" title="下载"></i>
+                                <i class="trans-delete" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title="删除"></i>
+                                <i class="trans-download" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title="下载"></i>
                                 {{else}}
-                                <i class="trans-delete" data-contentid="{{contentId}}" title="删除"></i>
-                                <i class="trans-redo" data-contentid="{{contentId}}" title="重新生成"></i>
+                                <i class="trans-delete" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title="删除"></i>
+                                <i class="trans-redo" data-contentid="{{contentId}}" data-taskid="{{taskId}}" title="重新生成"></i>
                                 {{/if}}
                             </div>
                         </div>

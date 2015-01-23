@@ -233,12 +233,9 @@ body>div {
 .cut-content .v_bar ul{
     margin: 0 auto;
     height:60px;
-<<<<<<< HEAD
     width:3000px;   /*需要计算宽度*/
-=======
     /*width:1000px;*/   /*需要计算宽度*/
     overflow:hidden;
->>>>>>> b11f10f941466822b1cc5b2a997bda6ff7b1704f
     text-align:center
 }
 .cut-content .v_bar ul li{
@@ -327,7 +324,18 @@ body>div {
     position: absolute;
     top: 10px;
     left: 20px;
-    width: 80;
+    width: 80px;
+    height: 50px;
+    text-align: center;
+    line-height: 60px;
+    background: rgb(49, 46, 46);
+}
+.cut-content .lists li .imgs img {
+    width: 20px;
+    height: 20px;
+}
+.cut-content .lists li .imgs .loading {
+    width: 80px;
     height: 50px;
 }
 .cut-content .lists li .title ,.cut-content .lists li .time{

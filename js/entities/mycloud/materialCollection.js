@@ -80,7 +80,7 @@
 	                var folderCode = self.parameters.get("folderCode");
 	                
 
-	                self.state.totalPages = page;
+	                //self.state.totalPages = page;
 	                self.state.pageSize = pagesize;
 	                self.state.sortKey = sort;
 	                self.state.order = order;

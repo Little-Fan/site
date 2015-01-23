@@ -1,4 +1,4 @@
-﻿define(["app","config"], function (CloudMamManager,config) {
+﻿define(["app", "config", "request"], function (CloudMamManager, config, request) {
     CloudMamManager.module("MyCloudApp.Dialog.Tree", function (Tree, CloudMamManager, Backbone, Marionette, $, _) {
         //定义节点数据原型
         Tree.NodeModel = Backbone.Model.extend({
@@ -90,20 +90,8 @@
                     nodeView.$el.find('.node-label').hide().next('input').show().focus().blur(function () {
                         var value = nodeView.$(this).val();
                         var el = nodeView.$el.find('.node-label');
-                        var url =  config.dcmpRESTfulIp + '' + "/emc/folder";
-                        Backbone.ajax(url, {
-                            type: "POST",
-                            data: JSON.stringify({ name: value, ParentFolderCode: selectedNode.get("code") }), // "parentFolderCode=" + selectedNode.get("code") + "&" + "name=" + value,
-                            contentType: 'application/json',
-                            success: function (data, textStatus, jqXHR) {//请求成功        
-                                //el.text(value);
-                                //el.show().next('input').hide().next('button').hide().next('button').hide();
-                                selectedNodeView.loadChildrenNode(selectedNode);
-                                
-                            },
-                            error: function () {
-                                console.log("出错");
-                            }
+                        request.post("/emc/folder", { name: value, ParentFolderCode: selectedNode.get("code") }, function(res) {
+                            selectedNodeView.loadChildrenNode(selectedNode);
                         });
                     });
                   
@@ -111,9 +99,7 @@
             },
             moveToFolder: function (list) {//移动到文件夹
                 
-                //console.log(list);
                 var selectedNode = this.collection.getSelected();//返回当前选中
-                //console.log(selectedNode);
                 if (selectedNode) {
                     var isValid = true;
                     _.forEach(list, function (item) {//检索当前目录是否移动到自身或者其子文件下
@@ -128,49 +114,28 @@
                     });
                     if (!isValid) { return false; }
                     _.forEach(list, function (item) {
-                        //console.log(item);
-                        //item.attributes.type = code;
-                        //console.log(config.dcmpRESTfulIp);
                         if (!item.isFolder) {
-                            var url =  config.dcmpRESTfulIp + '' + "/emc/entity/" + item.contentID;//+ "?entity=" + selectedNode.get("code") + "&" + "type=move";
-                            Backbone.ajax(url, {
-                                type: "PUT",
-                                data: JSON.stringify({ name: '', publicfolder: selectedNode.get("code") }),
-                                contentType: 'application/json',
-                                success: function (data, textStatus, jqXHR) {
-                                    //console.log(data);
-                                    console.log(item.view.model.collection);
-                                    item.view.model.collection.forEach(function (model) {
-                                        if (model.get("contentID") == selectedNode.get("code")) {
-                                            var count = model.get("entityCount");
-                                            count += 1;
-                                            model.set({ entityCount: count });
-                                            //item.view.model.collection.remove(model);
-                                        }
-                                    });
-                                    item.view.remove();//关闭视图
-                                }
+                            request.put("/emc/entity/" + item.contentID, { name: '', publicfolder: selectedNode.get("code") }, function(res) {
+                                item.view.model.collection.forEach(function (model) {
+                                    if (model.get("contentID") == selectedNode.get("code")) {
+                                        var count = model.get("entityCount");
+                                        count += 1;
+                                        model.set({ entityCount: count });
+                                    }
+                                });
+                                item.view.remove();//关闭视图
                             });
                         } else {
-                            var url =  config.dcmpRESTfulIp + '' + "/emc/folder/" + item.contentID;//+ "?entity=" + selectedNode.get("code") + "&" + "type=move";
-                            Backbone.ajax(url, {
-                                type: "PUT",
-                                data: JSON.stringify({ code: item.contentID, name: '', ParentFolderCode: selectedNode.get("code") }),
-                                contentType: 'application/json',
-                                dataType: 'JSON',
-                                success: function (data, textStatus, jqXHR) {
-                                    //console.log(data);
-                                    //console.log(item.view.model.collection);
-                                    item.view.model.collection.forEach(function (model) {
-                                        if (model.get("contentID") == selectedNode.get("code")) {//查找到当前选中的model
-                                            var count = model.get("entityCount");
-                                            count += item.view.model.get("entityCount");//将移动的文件夹数添加到移动到的里面
-                                            model.set({ entityCount: count });
-                                            //item.view.model.collection.remove(model);
-                                        }
-                                    });
-                                    item.view.remove();//关闭视图
-                                }
+                            request.put("/emc/folder/" + item.contentID, { code: item.contentID, name: '', ParentFolderCode: selectedNode.get("code") }, function(res) {
+                                item.view.model.collection.forEach(function (model) {
+                                    if (model.get("contentID") == selectedNode.get("code")) {//查找到当前选中的model
+                                        var count = model.get("entityCount");
+                                        count += item.view.model.get("entityCount");//将移动的文件夹数添加到移动到的里面
+                                        model.set({ entityCount: count });
+                                        //item.view.model.collection.remove(model);
+                                    }
+                                });
+                                item.view.remove();//关闭视图
                             });
                         }
                     });
@@ -191,27 +156,17 @@
             },
             loadChildrenNode: function (mainNode) {                
                 //子节点
-                var url =  config.dcmpRESTfulIp + '' + "/emc/folder/folder/" + mainNode.get("code");
-                Backbone.ajax(url, {
-                    type: "GET",
-                    success: function (data, textStatus, jqXHR) {
-                        //console.log(data);
-                        var data = JSON.parse(data);//处理返回数据
-                        var mainNodes = mainNode.collection;
-                        //console.log("mainNodes", mainNodes);
-                        //添加子节点到父节点
-                        var subNodeIds = [];
-                        data.forEach(function (item) {
-                            mainNodes.add(item);
-                            subNodeIds.push(item["id"]);
-                        });
-                        //console.log("mainNodes after add subNodes", mainNodes);
-                        ////获取当前子节点所有的ID
-                        //console.log(subNodeIds);
-                        mainNodes.get(mainNode).set({ children: subNodeIds });
-                        //console.log("mainNodes after add subNodes", mainNodes);
-                        //self.toggleCollapse();
-                    }
+                request.get("/emc/folder/folder/" + mainNode.get("code"), null, function(res) {
+                    var data = res;//处理返回数据
+                    var mainNodes = mainNode.collection;
+                    //添加子节点到父节点
+                    var subNodeIds = [];
+                    data.forEach(function (item) {
+                        mainNodes.add(item);
+                        subNodeIds.push(item["id"]);
+                    });
+                    //获取当前子节点所有的ID
+                    mainNodes.get(mainNode).set({ children: subNodeIds });
                 });
             },
             setupEvents: function () {

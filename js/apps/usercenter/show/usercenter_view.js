@@ -25,7 +25,8 @@
             },
             submit : function(e){
                 //三者都通过验证
-                if (this.verifyName() && this.verifyPhone() && this.verifyEmail()){
+                var vn = this.verifyName(), vp = this.verifyPhone(), ve = this.verifyEmail();
+                if (vn && vp && ve){
                     var data = {
                         userName: this.ui.realname.val(),
                         userCode: this.userInfo.info.userCode, //取本地存储
@@ -35,9 +36,7 @@
                         sex: self.sex ? self.sex : "1"
                     };
                     CloudMamManager.trigger('update:personal:info',data);
-                } else {
-                    alert("认真检查一下吧！")
-                }
+                } 
             },
             reminder : function (element,reg,msg) {
                 var val = element.val();
@@ -71,8 +70,26 @@
                 this.sex = $sex.data('sex');
                 this.ui.sex.removeClass('active') && $sex.addClass('active');
             },
-            onRender: function() {
-                //注册验证组件
+            onDomRefresh: function () {
+                var self = this;
+                //注册文本输入及时验证
+                this.$('input').keyup(function(e) {
+                    var type = $(e.currentTarget).attr('name').toLowerCase();
+                    var value = $(e.currentTarget).val();
+                    switch (type) {
+                    case 'name':
+                        self.verifyName();
+                        break;
+                    case 'telphone':
+                        self.verifyPhone();
+                        break;
+                    case 'email':
+                        self.verifyEmail();
+                        break;
+                    default:
+                    }
+                });
+
             }
         });
 
@@ -94,17 +111,14 @@
                 "blur @ui.newpsw"   : "verifyNewPassword",
                 "click @ui.submit"  : "verifySubmit"
             },
-            verifySubmit : function(){
-                if(this.verifyOldPassword() && this.verifyNewPassword()){
-                    if(this.ui.newpsw.val() === this.ui.repeatpsw.val()){
-                        var data = {
-                            oldPassword: this.ui.oldpsw.val(),
-                            newPassword: this.ui.newpsw.val()
-                        };
-                        CloudMamManager.trigger('update:password', data);
-                    } else {
-                        this.ui.newpsw.next().removeClass("success error").addClass("error").text("密码不一致");
-                    }
+            verifySubmit: function () {
+                var vo = this.verifyOldPassword(), vn = this.verifyNewPassword(), vr = this.verifyRepeatPassword();
+                if (vo && vn && vr) {
+                    var data = {
+                        oldPassword: this.ui.oldpsw.val(),
+                        newPassword: this.ui.newpsw.val()
+                    };
+                    CloudMamManager.trigger('update:password', data);
                 }
             },
             verifyOldPassword : function(){
@@ -113,6 +127,13 @@
             verifyNewPassword : function(){
                 return this.reminder(this.ui.newpsw,"密码格式错误");
             },
+            verifyRepeatPassword: function() {
+                if(this.ui.newpsw.val() !== this.ui.repeatpsw.val())
+                    return this.reminder(this.ui.repeatpsw, "密码不一致");
+                else 
+                    return this.reminder(this.ui.repeatpsw, "密码格式错误");
+            },
+
             reminder : function (element,msg) {
                 var reg = new RegExp("^[0-9A-Za-z_]{6,15}$");
                 var val = element.val();
@@ -127,6 +148,27 @@
                     }
                     return false;
                 }
+            },
+            onDomRefresh: function () {
+                var self = this;
+                //注册文本输入及时验证
+                this.$('input').keyup(function (e) {
+                    var type = $(e.currentTarget).attr('name').toLowerCase();
+                    var value = $(e.currentTarget).val();
+                    switch (type) {
+                        case 'oldpsw':
+                            self.verifyOldPassword();
+                            break;
+                        case 'newpsw':
+                            self.verifyNewPassword();
+                            break;
+                        case 'repeatpsw':
+                            self.verifyRepeatPassword();
+                            break;
+                        default:
+                    }
+                });
+
             }
         });
 

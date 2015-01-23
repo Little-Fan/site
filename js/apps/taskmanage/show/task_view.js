@@ -194,7 +194,7 @@
                 });
             },
            
-            onDomRefresh: function() {
+            onShow: function() {
                 if (!this.hasRegisted) {
                     this.ui.copy.zclip({
                         path: 'js/libs/ZeroClipboard.swf',

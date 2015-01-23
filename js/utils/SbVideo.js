@@ -159,8 +159,8 @@ SbVideo.prototype = {
         var code = e.keyCode;
         var duration = TimeCodeConvert.Second2Frame(this.video.duration, this.frameRate);
 
-        //避免算法四舍五入造成死循环
-        var currentframe = this.getcurrentframe();
+        //don't use Math.round()
+        var currentframe = Math.floor(this.lastcurrentframe || this.getcurrentframe());
         //(Math.abs(this.lastcurrentframe - this.getcurrentframe()) == 1) ? this.lastcurrentframe + 1 : this.lastcurrentframe;
 
         if (code == 37) {
@@ -289,7 +289,7 @@ SbVideo.prototype.pause = function () {
 
 //seek到指定帧
 //注意：只有视频/story播放的时候需要seek : timeline.seekTo(frame)
-SbVideo.prototype.seek = function (frame, options) {
+SbVideo.prototype.seek = function (frame) {
     if (TimeCode) {
         var self = this;
         var tc = new TimeCode({ frames: frame, frameRate: this.frameRate });
@@ -300,8 +300,6 @@ SbVideo.prototype.seek = function (frame, options) {
         console.log('video.currentTime:' + this.video.currentTime);
         if (this.timeline && !this.inoutdrag) {
                 this.timeline.seekTo(frame);
-
-            //options && options.noloop ? null : this.timeline.seekTo(frame);
         }
 
         //用于显示

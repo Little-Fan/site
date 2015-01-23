@@ -352,7 +352,7 @@ TimeLine.prototype.__drawLine = function () {
                 frames: showframes,//当前帧
                 frameRate: this.frameRate
             });
-            var showtext = Math.round(tc.frames);//tc.toSMPTE();
+            var showtext = tc.toSMPTE(); //Math.round(tc.frames);
 
             context.fillText(showtext, i * parmargin + offset, height - (lineheight * 3 / 4 + offset));
         } else if (i % 5 == 0) {
@@ -368,12 +368,24 @@ TimeLine.prototype.__drawLine = function () {
     }
 };
 
+TimeLine.prototype.stopPropagation = function(e) {
+    
+    e = e || window.event;
+    if (e.stopPropagation)
+        e.stopPropagation();
+    else e.cancelBubble = true;
+    if (e.preventDefault)
+        e.preventDefault();
+    else e.returnValue = false;
+};
+
 //canvas点击进度线跳转当前
 TimeLine.prototype.__bindCanvasClick = function (el1, el2) {//canvas/进度线
     var self = this;
     el1.onclick = function(e) {
         e = e || event;
         self._move(el2, e); //进度线 / canvas点击事件对象
+        self.stopPropagation(e);
     };
 };
 
@@ -431,6 +443,7 @@ TimeLine.prototype.__bindMove = function (el) {
                 document.onmousemove = function (ev) {
                     //self._move(el, ev || event); //进度线 / move事件
                     mouseMove(ev || event);
+                    self.stopPropagation(e);
                 },
                 document.onmouseup = mouseUp
             ) : (
@@ -462,23 +475,36 @@ TimeLine.prototype.__bindMove = function (el) {
                 els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
             }
         } else {
-            els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
+            //限制拖出canvas
+            if (e.clientX <= el.offsetParent.offsetLeft)
+                els.left = el.offsetParent.offsetLeft;
+            else if (e.clientX >= el.offsetParent.offsetLeft + self.canvaswidth)
+                els.left = el.offsetParent.offsetLeft + self.canvaswidth;
+            else
+                els.left = e.clientX - el.offsetParent.offsetLeft + 'px';
         }
-        self.currentframe = currentframe;
-        if (self.oncurrentframechange) {
-            self.sbvideoPlayer.lastcurrentframe = self.currentframe;
-            console.log('last current frame: ' + self.sbvideoPlayer.lastcurrentframe);
-            self.oncurrentframechange.apply(self.viewObj, [self.currentframe, true]);
+
+        var duration = TimeCodeConvert.Second2Frame(self.sbvideoPlayer.video.duration, self.frameRate);
+        console.log('当前帧：' + currentframe);
+        if (0 <= currentframe && currentframe <= duration) {
+            self.currentframe = currentframe;
+            if (self.oncurrentframechange) {
+                self.sbvideoPlayer.lastcurrentframe = self.currentframe;
+                console.log('last current frame: ' + self.sbvideoPlayer.lastcurrentframe);
+                self.oncurrentframechange.apply(self.viewObj, [self.currentframe, true]);
+            }
         }
+
     }
 
-    function mouseUp() {
+    function mouseUp(e) {
         el.releaseCapture ? (
             el.releaseCapture(),
                 document.onmousemove = document.onmouseup = null
             ) : (
             $(document).unbind("mousemove", mouseMove).unbind("mouseup", mouseUp)
             );
+        self.stopPropagation(e);
     }
 };
 
@@ -513,17 +539,22 @@ InOutPointResize.prototype = {
         var el = self.el;//range span
         var elDrag = self.elDrag;//cut 区间左右拖拽按钮
         var els = el.style;
+        var ifDrag = false;
        
         //点击canvas 进度线移动
-        $(el).click(function(e) {
+        $(el).click(function (e) {
+            if (ifDrag) {
+                ifDrag = !ifDrag;
+                return;
+            }
             e = e || event;
             self.timeline._move(document.getElementById('currentProgressSpan'), e);
-            e.stopPropagation();
-            e.preventDefault();
+            self.timeline.stopPropagation(e);
         });
 
+
         $(elDrag).mousedown(function (e) {
-            //拖拽时视频应当暂停
+            //拖拽时视频暂停
             var player = self.timeline.sbvideoPlayer;
             player.pause();
             if (player.onplayended)
@@ -533,27 +564,25 @@ InOutPointResize.prototype = {
             self.x = e.clientX - el.offsetWidth;
             self.y = e.clientY - el.offsetHeight;
                 elDrag.setCapture ? (
-                    //捕捉焦点
                     elDrag.setCapture(),
-                    //设置事件 elDrag
                     document.onmousemove = function (ev) {
                         ev = ev || event;
                         mouseMove(ev);
-                        ev.cancelBubble = true;
-                        ev.stopPropagation();
-                        return false;
+                        self.timeline.stopPropagation(ev);
                     },
                     document.onmouseup = mouseUp
                 ) : (
                 //绑定事件
                 $(document).bind("mousemove", mouseMove).bind("mouseup", mouseUp)
                 );
-            //防止冒泡/默认事件发生
             return false;
         });
 
         //移动事件
         function mouseMove(e) {
+            ifDrag = true; 
+            self.timeline.stopPropagation(e);
+
             if (!self.timeline.lockRange) {
                 var inoutpoint = self.timeline.getInOutPoint();
                 var marginleft = 0;//整个右边距
@@ -589,7 +618,7 @@ InOutPointResize.prototype = {
                 
                 if (self.timeline.oninoutpointchange) {
                     //用于显示出入点
-                    self.timeline.oninoutpointchange.apply(self.timeline.viewObj, [inoutpoint]);
+                    self.timeline.oninoutpointchange.apply(self.timeline.viewObj, [self.timeline.getInOutPoint()]);//inoutpoint必须move后重新获取
                 }
                 if (self.timeline.oncurrentframechange) {
                     //第二参数boolean代表是出入点拖拽移动
@@ -600,7 +629,7 @@ InOutPointResize.prototype = {
         };
 
         //停止事件
-        function mouseUp() {
+        function mouseUp(e) {
            
             elDrag.releaseCapture ? (
                 //释放焦点
@@ -617,6 +646,8 @@ InOutPointResize.prototype = {
             if (elDrag.releaseCapture) {
                 elDrag.releaseCapture();
             }
+
+            self.timeline.stopPropagation(e);
             return false;
         }
     },

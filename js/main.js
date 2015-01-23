@@ -117,7 +117,9 @@ requirejs.config({
                 "css!../css/login.css",
                 "css!../css/register.css",
                 "css!../css/contact.css",
-                "css!../css/findPsw.css"
+                "css!../css/findPsw.css",
+                "css!../css/basic.css",
+                "css!../css/dropzone.css"
             ]
         },
         "clipreview_app": {

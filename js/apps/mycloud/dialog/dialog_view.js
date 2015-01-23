@@ -50,11 +50,12 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             viewContainer: ".transform .fix", 
             initialize: function(options) {
                 this.currentStep = null; //当前步骤
+                this.nolongerTip = false;//不再提示
             },
             events: {
                 "click .js-next": "nextStep",
                 "click .js-previous": "previousStep",
-                "click .js-nolongerTip": "nolongerTip"
+                "click .js-nolongerTip": "nolongerShow",
             },
             steps: {
                 firstStep: {
@@ -79,8 +80,9 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
                 }
             },
             //不再提示
-            nolongerTip: function(e) {
-                
+            nolongerShow: function (e) {
+                this.nolongerTip = !this.nolongerTip;
+                this.setIsShowTip();
             },
             nextStep: function (e) {
                 this.currentStep = this.steps[this.currentStep.nextStep];
@@ -93,6 +95,16 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             renderStep: function() {
                 var template = Handlebars.compile(this.$el.find(this.currentStep.template).html());
                 this.$el.find(".js-view").empty().append(template(null));
+                this.setIsShowTip();
+            },
+            setIsShowTip: function () {
+                if (this.nolongerTip) {
+                    utility.localStorage.SetGuideViewFlag(true); //不再显示指导视图
+                    this.$('.js-nolongerTip').addClass('check');
+                } else {
+                    utility.localStorage.SetGuideViewFlag(false);
+                    this.$('.js-nolongerTip').removeClass('check');
+                }
             },
             onRender: function () {
                 this.currentStep = this.steps.firstStep;
@@ -449,10 +461,21 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             events: {
                 "click .trans-download": "download",
                 "click .o-more": "more",
-                "click .trans-delete": "deleteItem"
+                "click .trans-delete": "deleteItem",
+                "click .trans-redo": "recreate"
+            },
+            recreate: function (e) {
+                var el = this.$(e.currentTarget);
+                var taskid = el.data('taskid');
+                request.put("/ac/transcode/expiration/" + taskid, null, function (res) {
+                    el.hide();
+                    el.parent('.setting-icon').append('<i class="trans-download" data-contentid="{{contentId}}" data-taskid="$taskId" title="下载"></i>'.replace('$taskId', taskid));
+                    el.parents('.js-item').find('.txt').html('还有<b>7</b>天过期');
+                    el.remove();
+                });
             },
             deleteItem: function (e) {
-                var contentId = this.$(e.currentTarget).data('contentid');
+                var contentId = this.$(e.currentTarget).data('taskid');
                 this.trigger('delete:shared:item', { contentId: contentId, deletedObj: this.$(e.currentTarget).parents('.js-item') });
             },
             //供controller回调:删除当前Dom节点
@@ -470,7 +493,7 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             },
             download: function(e) {
                 e && e.stopPropagation() && e.preventDefault();
-                var contentid = this.$(e.target).data('contentid');
+                var contentid = this.$(e.target).data('taskid');
                 var url = config.upLoadRESTfulIp + "/api/getfile/" + contentid;
                 window.open(url,'_self');
                 

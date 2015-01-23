@@ -1,8 +1,8 @@
 ﻿define(['backbone', 'underscore', 'config', "apps/common/utility"], function (Backbone, _, config, utility) {
     /* model必须为JSON格式 */
     function request(options) {
-        this.baseUrl = config.dcmpRESTfulIp;
-        this.upLoadRESTfulIp = config.upLoadRESTfulIp;
+        this.baseUrl = config.debugVersion ? window.location.hostname + ":9090" : config.dcmpRESTfulIp;
+        this.upLoadRESTfulIp = config.debugVersion ? window.location.hostname + ":9090" : config.upLoadRESTfulIp;
         this.options = {
             type: 'GET',
             data: null,
@@ -17,6 +17,9 @@
 
     request.prototype = {
         constructor: this,
+
+        localhost: window.location.hostname,
+
         commonConstructor: function(type) {
             
         },

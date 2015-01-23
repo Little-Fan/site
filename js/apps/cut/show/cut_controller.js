@@ -133,11 +133,6 @@
                                 CloudMamManager.trigger("player:ended");
                             });
 
-                            //设置静音
-                            self.listenTo(featureCenterView, "player:muted", function(option) {
-                                CloudMamManager.trigger("player:muted", option);
-                            });
-
                             //重置播放器
                             self.listenTo(leftView, "player:reset", function() {
                                 CloudMamManager.trigger("player:reset");

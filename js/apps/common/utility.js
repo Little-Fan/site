@@ -182,8 +182,8 @@
             var el = '<div class="bbm-wrapper js-wrapper"><div class="bbm-modal bbm-modal--open" style="opacity: 1;">$template</div></div>';
             var templates = {
                 loading: '<img src="./images/load/loading.gif" style="width:60px; height:60px;" alt />',
-                synthesis: '<div class="-xh-synthesize"><p>新素材合成发起成功，请去 <a href="#task/manage/cut">任务管理</a> 中查看合成进度.</p><span class="-xh-closed">x</span></div>',
-                timeout: '<div class="-xh-synthesize"><p>登录超时啦，请 <a style="color:#047281" href="#user/login">重新登录！</a></p><span class="-xh-closed">x</span></div>'
+                synthesis: '<div class="-xh-synthesize"><p>新素材合成发起成功，请去 <a href="#task/manage/synthesis" style="color:#047281;">任务管理</a> 中查看合成进度.</p><span class="-xh-closed">x</span></div>',
+                timeout: '<div class="-xh-synthesize"><p>登录超时，请 <a style="color:#047281" href="#user/login">重新登录！</a></p><span class="-xh-closed">x</span></div>'
             }
             
             if (options.type) {

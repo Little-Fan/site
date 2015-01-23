@@ -1205,8 +1205,8 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
                 this.SelectedItemViews = [];//清空当前已选视图
             },
             onDomRefresh: function () {
-
-                if (utility.localStorage.GetGuideViewFlag() == 'false') {
+                var flag = utility.localStorage.GetGuideViewFlag();
+                if (flag == 'false' || flag == undefined) {
                     //触发指导视图
                     this.trigger('show:giudview');
                     //触发后设置flag
