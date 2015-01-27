@@ -160,7 +160,8 @@ SbVideo.prototype = {
         var duration = TimeCodeConvert.Second2Frame(this.video.duration, this.frameRate);
 
         //don't use Math.round()
-        var currentframe = Math.floor(this.lastcurrentframe || this.getcurrentframe());
+        //ToDo 四舍五入造成bug
+        var currentframe = this.lastcurrentframe || this.getcurrentframe();
         //(Math.abs(this.lastcurrentframe - this.getcurrentframe()) == 1) ? this.lastcurrentframe + 1 : this.lastcurrentframe;
 
         if (code == 37) {

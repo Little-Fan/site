@@ -38,38 +38,59 @@
                 });
             });
 
-            this.oInput.blur(function () {
+
+            var doNext = function() {
+                width = 0;//重置
+                var containerWidth = self.container.width();
+                var count = self.container.find('a').length;
+
+                if (self.oInput.width() != containerWidth) {
+                    console.log('邮件地址个数： ' + self.container.find('a').length);
+                    _.each(self.container.find('a'), function(oA) {
+                        width = (width + $(oA).outerWidth(true)) % containerWidth;
+                    });
+                    if (containerWidth - width >= 50) //50为最小宽度
+                        self.oInput.css('width', containerWidth - width);
+                    else
+                        self.oInput.css('width', containerWidth);
+                } else {
+
+                }
+                self.oInput.val('').focus();
+            }
+
+            this.oInput.keyup(function (e) {
+                e = e || window.event;
+                var keycode = e.keyCode || e.which;
+                if (keycode == 59 || keycode == 186) {
+                    self.values.push({ index: self.index, value: self.oInput.val(), isCorrect: self.validate(self.oInput.val().trim())});
+                    self.addTemplate(val);
+                    doNext(e);
+                }
+
+            });
+
+            this.oInput.blur(function (e) {
                 val = self.oInput.val().trim();
                 if (val && self.checkLength()) {
-                    self.values.push({ index: self.index, value: self.oInput.val(), isCorrect: self.validate(self.oInput.val().trim()), width: (20 + val.length * self.fontsize) });
+                    self.values.push({ index: self.index, value: self.oInput.val(), isCorrect: self.validate(self.oInput.val().trim())});
                     self.addTemplate(val);
-
-                    _.each(self.values, function (item) { width += item.width; });
-                    if (width >= self.container.width() - self.oInput.width())
-                        self.oInput.css('width', '100%');
-
-                    width = self.oInput.width() - (20 + val.length * self.fontsize);
-                    self.oInput.css('width', width <= 60 ? 60 : width);
-                    self.oInput.val('').focus();
+                    doNext(e);
                 }
             });
 
             this.oInput.keydown(function (e) {
                 e = e || window.event;
                 val = self.oInput.val().trim();
-                if (val && e.keyCode == 32 && self.checkLength()) {
-                    self.values.push({ index: self.index, value: self.oInput.val(), isCorrect: self.validate(val), width: (20 + val.length * self.fontsize) });
+                var keycode = e.keyCode || e.which ;
+                if (val && (keycode == 32 || keycode == 13) && self.checkLength()) {
+                    self.values.push({ index: self.index, value: self.oInput.val(), isCorrect: self.validate(val)});
                     self.addTemplate(val);
-
-                    _.each(self.values, function (item) { width += item.width; });
-                    if (width >= self.container.width() - self.oInput.width())
-                        self.oInput.css('width', '100%');
-
-                    width = self.oInput.width() - (20 + val.length * self.fontsize);
-                    self.oInput.css('width', width <= 60 ? 60 : width);
-                    self.oInput.val('').focus();
+                    doNext(e);
                 }
             });
+
+            
         },
         validate: function(adress) {
             var regex = /^(?:\w+\.?)*\w+@(?:\w+\.)*\w+$/;

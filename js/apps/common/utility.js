@@ -23,6 +23,9 @@
         GetHeaderImg: function() {
             return localStorage.getUserInfo().info.headUrl;
         },
+        SetHeaderImg: function(url) {
+            localStorage.getUserInfo().info.headUrl = url;
+        },
         SetGuideViewFlag: function (bool) {
             $.cookie('_guideview', bool);
         },

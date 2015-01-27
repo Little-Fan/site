@@ -3,7 +3,7 @@
         <span class="ico"></span>
     </span>
 </td>
-<td width="25%">
+<td width="20%">
     <p>
         {{#if entityName}}
             {{entityName}}
@@ -13,7 +13,7 @@
     </p>
     <i>{{createTime}}</i>
 </td>
-<td width="33%">
+<td width="35%">
     <dl class="-tm-cut-form">
         <dt class="transform_{{sourceFileType}} -tm-form code-rate">
             {{#if sourceFileType}}
@@ -48,7 +48,7 @@
         未知
     {{/equal}}
 </td>
-<td width="15%">
+<td width="10%">
     {{#equal status 1}}
         <span class="success-transcode control shown"></span>转码完成
     {{/equal}}
@@ -59,7 +59,7 @@
         <span class="fail-transcode control shown"></span>转码失败
     {{/equal}}
 </td>
-<td width="27%">
+<td>
     {{#equal status 1}}
         <span class="download-transcode control js-download">
 

@@ -25,7 +25,8 @@
                         { title: '修改密码', router: 'changepsw', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:changepsw" },
                         { title: '当前资费', router: 'currentrate', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:currentrate" },
                         { title: '用量', router: 'dosage', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:dosage" },
-                        { title: '设置水印', router: 'watermark', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:watermark" }
+                        { title: '设置水印', router: 'watermark', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:watermark" },
+                        { title: '邀请码', router: 'invitation', prefix: "user/center", imgUrl: '', navigateTrigger: "leftnav:invitation" }
                     ]
 
             );

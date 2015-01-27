@@ -512,22 +512,25 @@
     zoom: 1;
     vertical-align: top;
 }
-.player_box .content .share-mail .name-content .input-text{
+.player_box .content .share-mail .name-content .input-text {
     line-height: 24px;
     font-size: 12px;
     height: 24px;
-    margin: 2px;
     border: 0 none;
     color: #999;
     overflow: hidden;
     float: left;
-    max-width: 500px;
     width: 100%;
     color: #999;
+    -moz-min-width: 50px;
+    -ms-min-width: 50px;
+    -o-min-width: 50px;
+    -webkit-min-width: 50px;
+    min-width: 50px;
 }
 
 
-  .player_box .content .share-mail textarea{
+.player_box .content .share-mail textarea{
       width:100%;
       height:65px;
       margin: 5px 0;
@@ -2182,7 +2185,14 @@
  /*-uc-detail*/
  .-uc-details h3{ color:#aaa;font: 15px Microsoft Yahei;border-bottom:1px solid #111010;line-height:40px; -mozbox-shadow: 0px 1px 0px #3B3B3B;-webkitbox-shadow: 0px 1px 0px #3B3B3B;box-shadow: 0px 1px 0px #3B3B3B;}
  .-uc-details h3 a{ font: 15px Microsoft Yahei; color: #65cde1; }
+
  .-uc-details h3 span{ margin-left: 115px; color: #65cde1; }
+.-uc-details h4 {
+    margin: 20px auto;
+    text-align: center;
+    font: bold 16px/40px 'Microsoft Yahei';
+    color: #fff;
+}
 .-uc-details img{ margin: 0; padding : 0;}
  .-uc-main{ background: #292929; min-width: 1100px; width: 100%; min-height: 100%; }
  .-uc-left{ width: 270px; height: calc(100% - 65px); min-height: 400px; background: #181818; position: absolute; left: 0px; top: 65px; position: fixed; }
@@ -2190,8 +2200,9 @@
  .-uc-right{ margin-left: 280px; padding-top: 75px; position: relative; }
  .-uc-details{
      width: 90% !important;
-     padding: 2% 5% 0;
-     height: 98% !important;
+     margin-top: 2%;
+     padding: 0 5%;
+     height: 96% !important;
      overflow: auto;
  }
  .-uc-center{ margin-left:38px; }
@@ -2385,11 +2396,9 @@
     background: #047281;
     border: none;
     cursor: pointer;
-    font-family: Microsoft Yahei;
-    font-weight: bold;
+    font: bold 18px 'Microsoft YaHei';
     height: 36px;
     color: #fff;
-    font-size: 18px;
     padding: 0 50px;
 }
 .-uc-changehead .btn-box .save{
@@ -2398,6 +2407,83 @@
 .-uc-changehead .btn-box .cancel{
     background: #414443;
 }
+/*-----------邀请码 start---------->*/
+.invite-box {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #363636;
+    border-top: none;
+    width: 700px;
+    height: 320px;
+    background: #191919 repeat-x scroll url(../images/usercenter/invitation_bar.png) top left;
+}
+.invite-box .invite-left {
+    float: left;
+}
+.invite-box .invite-left li {
+    margin-left: 30px;
+    width: 350px;
+    line-height: 25px;
+    color: #fff;
+    list-style: decimal outside none;
+}
+.invite-box .invite-right {
+    position: absolute;
+    right: 30px;
+    top: 40px;
+    padding: 0 20px;
+    width: 180px;
+    height: 290px;
+    border: 1px solid #363636;
+    background: transparent no-repeat scroll url(../images/usercenter/invitation_wallpaper.png) bottom right;
+}
+.invite-right .topic {
+    height: 70px;
+    font: bold 40px/70px "微软雅黑";
+    text-align: center;
+    color: #fff;
+}
+.invite-right .valid-date{
+    margin-bottom: 10px;
+    text-align: center;
+    color: #00ccff;
+}
+.invite-right span {
+    display: block;
+    font: bold 14px/30px "微软雅黑";
+    color: #fff;
+}
+.action-box {
+    margin: 20px auto;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+}
+.action-box span {
+    color: #fff;
+}
+.action-box input[type="password"] {
+    border: none;
+    margin-left: 10px;
+    padding-left: 5px;
+    width: 150px;
+    line-height: 25px;
+}
+.action-box button{
+    display: inline-block;
+    margin-left: 10px;
+    height: 25px;
+    width: 100px;
+    color: #FFF;
+    background-color: #0099ff;
+}
+.action-box p {
+    font: bold 16px/35px "Microsoft YaHei";
+    color: #09F;
+}
+/*-----------邀请码 end---------->*/
 
 /*-----------tabs---------->*/
 .change-avatar dl{width:960px;margin:0 auto 28px auto}
@@ -2732,6 +2818,7 @@ a.button_shutter.Disabled:hover{
     border-bottom: 1px solid #1f1f1f;
     box-shadow: 0 1px 0 #363636;
     vertical-align: middle;
+    font-family: 'Microsoft YaHei';
     color: #DFDFDF;
 }
 

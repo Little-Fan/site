@@ -407,7 +407,7 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
         View.Media = Marionette.ItemView.extend({
             tagName: "dl",
             className: "pic",
-            template: "mycloud/mycloud-material-mediaItem",
+            template: "mycloud/mycloud-material-mediaitem",
             initialize: function () {
                 //this.selected = false;
                 this.isdbclick = false;

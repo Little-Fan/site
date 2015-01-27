@@ -20,7 +20,7 @@ requirejs.config({
         normalize: "libs/normalize",
         "backbone.syphon": "libs/backbone.syphon",
         "jquery.spin": "libs/jquery.spin",
-        "spin": "libs/spin",
+        "spin": "libs/spin", 
         "backbone.picky": "libs/backbone.picky",
         "backbone.paginator": "libs/backbone.paginator",
         "backbone.validation": "libs/backbone-validation-amd",
@@ -60,13 +60,9 @@ requirejs.config({
 
 
 
-        "Jcrop": "libs/jquery.Jcrop.min",
         "fullAvatarEditor": "utils/fullAvatarEditor/scripts/fullAvatarEditor",
         "swfobject": "utils/fullAvatarEditor/scripts/swfobject",
         "jquery.cookie": "libs/jquery.cookie",
-        "jQuery.dialog": "libs/jQuery.dialog",
-        "jQuery.Drag": "libs/jQuery.Drag",
-        "jQuery.Resize": "libs/jQuery.Resize",
         /*
         * jQuery.wPaint 绘图插件加载
         */
@@ -80,10 +76,16 @@ requirejs.config({
         //<!-- wPaint -->
         "wPaint": "libs/wPaint/wPaint.min",
         //<!-- wPaint plugins-->
-        "wPaint.menu": "libs/wPaint/plugins/main/src/wPaint.menu.main"
+        "wPaint.menu": "libs/wPaint/plugins/main/src/wPaint.menu.main",
+
+        //artdialog弹窗插件
+        "artDialog": "libs/artDialog.source"
     },
 
     shim: {
+        "artDialog": {
+            deps: ["css!../css/skins/black.css"]
+        },
         "jQuery.ui": ["jquery"],
         "jQuery.ui.widget": ["jQuery.ui"],
         "jQuery.ui.mouse": ["jQuery.ui.widget"],
@@ -100,7 +102,6 @@ requirejs.config({
                 'css!../css/backbone.modal.css',
                 'css!../css/dropzone_basic.css',
                 'css!../css/backbone-treeview.css'
-                //'css!../css/dropzone.css'
             ]
         },
         "cut_app": {
@@ -117,9 +118,7 @@ requirejs.config({
                 "css!../css/login.css",
                 "css!../css/register.css",
                 "css!../css/contact.css",
-                "css!../css/findPsw.css",
-                "css!../css/basic.css",
-                "css!../css/dropzone.css"
+                "css!../css/findPsw.css"
             ]
         },
         "clipreview_app": {
@@ -127,12 +126,6 @@ requirejs.config({
         },
         "share_app": {
             deps: ["css!../css/download.css"]
-        },
-        validateEngine: {
-            deps: ['jquery', 'validateEngine_zh', "css!../css/template.css", "css!../css/validationEngine.jquery.css"]
-        },
-        validateEngine_zh: {
-          deps: ['jquery']  
         },
         mCustomScrollbar: {
             deps: ['jquery', 'css!../css/jquery.mCustomScrollbar.css']
@@ -198,9 +191,6 @@ requirejs.config({
 
         "backbone.sync.custom": ["backbone"],
 
-        "Jcrop": {
-            deps: ["jquery", "css!../css/jquery.Jcrop.min.css"]
-        },
         "backbone.notifier": {
             deps: ["jquery", "backbone", "underscore", "css!../css/Notifier.custom.min.css"]
         },

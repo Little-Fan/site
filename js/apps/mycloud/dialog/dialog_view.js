@@ -493,7 +493,7 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             },
             download: function(e) {
                 e && e.stopPropagation() && e.preventDefault();
-                var contentid = this.$(e.target).data('taskid');
+                var contentid = this.$(e.target).data('contentid');
                 var url = config.upLoadRESTfulIp + "/api/getfile/" + contentid;
                 window.open(url,'_self');
                 

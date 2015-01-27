@@ -130,6 +130,7 @@
                 })
             },
             download:function(e){
+                var self = $(e.currentTarget);
                 var contentInfo = this.getContentIds();
                 var id = this.ui.file.data("id");
                 var url = config.upLoadRESTfulIp + "/api/getfile/" + id + "/" + contentInfo.arr.join(",");
@@ -239,13 +240,40 @@
                 "dblclick .thumb-folder": "enterFolder",
                 "click li": "multiSelect"
             },
+            bytesToSize : function(bytes) {
+                if (bytes === 0) return '0 B';
+                var k = 1024;
+                sizes = ['B','KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+                return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+            },
             multiSelect: function(event){
                 var self = $(event.currentTarget);
-                if(event.ctrlKey == true){
-                    self.toggleClass("select");
+                //如果选中的是文件夹
+                if (self.hasClass("folder")) {
+                    alert("不可以选中文件夹")
                 } else {
-                    self.siblings().removeClass("select");
-                    self.toggleClass("select");
+                    if (event.ctrlKey == true) {
+                        var fileSizeTotal = 0;
+                        self.toggleClass("select");
+                        this.$("li").each(function (index) {
+                            if ($(this).hasClass('select')) {
+                                console.log($(this).find(".thumb").data("filesize"));
+                                fileSizeTotal = fileSizeTotal + $(this).find(".thumb").data("filesize");
+                            }
+                        })
+                        fileSizeTotal = this.bytesToSize(fileSizeTotal);
+                        $("small").text(fileSizeTotal);
+                    } else {
+                        var fileSize = this.bytesToSize(self.find(".thumb").data("filesize"));
+                        self.siblings().removeClass("select");
+                        self.toggleClass("select");
+                        if (self.hasClass("select")) {
+                            $("small").text(fileSize);
+                        } else {
+                            $("small").text("0 B");
+                        }
+                    }
                 }
             },
             enterFolder : function(e) {

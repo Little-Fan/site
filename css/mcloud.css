@@ -166,7 +166,7 @@ html,body{ width: 100%; height: 100%;}
     display:inline-block;
     width:200px;
     height:200px;
-    background: url("../images/manage/dimensional.png") no-repeat center transparent;
+    background: url("../images/mcloud/dimensional.png") no-repeat center transparent;
     background-size:140px;
 }
 .topnav .subnav .dimension span{

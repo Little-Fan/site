@@ -88,6 +88,8 @@
                                 return new View.Dosage();
                             case "watermark":
                                 return new View.Watermark();
+                            case "invitation":
+                                return new View.Invitation();
                             default:
                                 return null;
                                 break;
@@ -99,7 +101,7 @@
                         var importdosage = CloudMamManager.request("usercenter:dosage:import");
                         var activitydosage = CloudMamManager.request("usercenter:dosage:activity");
 
-                        $.when(importdosage).done(function (res) {
+                            $.when(importdosage).done(function (res) {
 
                             var dosageTopView = new View.DosageTopView({ params: (res ? res : null) });
                             dosageLayout.TopRegion.show(dosageTopView);
@@ -185,6 +187,11 @@
                         }).fail(function (res) {
                             alert("网络原因，人口太差了！");
                         });
+                    });
+
+                    //更新头像
+                    self.listenTo(CloudMamManager, 'update:header', function (option) {
+                        headerView.changeHeader(option);
                     });
                 });
 

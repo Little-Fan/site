@@ -157,10 +157,15 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
                 e && e.stopPropagation() && e.preventDefault();
                 window.open('myspace.html#user/center/default', '_blank');
             },
+            //供外部调用
+            changeHeader: function(url) {
+                this.$('.info img')[0].src = url;
+            },
             onRender: function () {
                 var self = this;
                 if (this.userInfo) {
                     this.$('.js-username').html(self.userInfo.info.userName);
+                    this.$('.info img')[0].src = self.userInfo.info.headUrl;
                 }
             }
         });
@@ -215,6 +220,7 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
                 var self = this;
                 if (this.userInfo) {
                     this.$('.js-username').html(self.userInfo.info.userName);
+                    this.$('.info img')[0].src = self.userInfo.info.headUrl;
                 }
             }
         });

@@ -180,15 +180,8 @@
 
             },
             onRender: function() {
-                require([
-                    "config",
-                    "fullAvatarEditor",
-                    "swfobject",
-                    "jquery.cookie",
-                    "jQuery.dialog",
-                    "jQuery.Drag",
-                    "jQuery.Resize"
-                ],function(config){
+                require(["config", "fullAvatarEditor", "swfobject", "jquery.cookie", "artDialog"],
+                    function(config){
                     swfobject.addDomLoadEvent(function () {
                         var webcamAvailable = false;
                         var currentTab = 'upload';
@@ -243,35 +236,23 @@
                                 case 5:
                                     //如果上传成功
                                     if (json.type == 0) {
-                                        var e = this;
-                                        var html = $('<div class="imgList"/>');
-                                        for(var i = 0; i < json.content.avatarUrls.length; i++)
-                                        {
-                                            html.append('<dl><dt>头像图片'+(i+1)+'</dt><dd><img src="' + json.content.avatarUrls[i] + '" /></dd></dl>');
-                                        }
-                                        var button = [];
-                                        //如果上传了原图，给个修改按钮，感受视图初始化带来的用户体验度提升
-                                        if(json.content.sourceUrl)
-                                        {
-                                            button.push({text : '修改头像', callback:function(){
-                                                this.close();
-                                                $.cookie(id, json.content.sourceUrl);
-                                                location.reload();
-                                                //e.call('loadPic', json.content.sourceUrl);
-                                            }});
-                                        }
-                                        else
-                                        {
-                                            $.cookie(id, null);
-                                        }
-                                        button.push({text : '关闭窗口'});
-                                        $.dialog({
-                                            title:'图片已成功保存至服务器',
-                                            content:html,
-                                            button:button,
-                                            mask:true,
-                                            draggable:false
+                                        var xhr = json.content;
+                                        var avatarUrls = xhr.avatarUrls[0] + "?" + Math.random();
+                                        var dialog = art.dialog({
+                                            id     : "Avatar",
+                                            padding: 0,
+                                            title  : '图片已成功保存至服务器',
+                                            content: '<img src="' + avatarUrls + '" width="200" height="200" />',
+                                            lock   : true,
+                                            fixed  : true,
+                                            drag   : false,
+                                            resize : false
                                         });
+
+                                        //修改本地存储 头像信息
+                                        utility.localStorage.SetHeaderImg(avatarUrls);
+                                        //触发更换本地头像
+                                        CloudMamManager.trigger("update:header", avatarUrls);
                                     }
                                     else {
                                         alert("表示图片上传失败，发生了安全性错误！");
@@ -519,6 +500,21 @@
                         if (item.activityType == '审阅') self.ui.reviewCount.html(item.activityCount);
                     });
                 }
+            }
+        });
+
+        View.Invitation  = Marionette.ItemView.extend({
+            tagName: "div",
+            className: "-uc-details fix",
+            template: 'usercenter/usercenter-invitation-item',
+            initialize: function() {
+                //this.listenTo('', function() {});
+            },
+            ui: {
+
+            },
+            events: {
+
             }
         });
 

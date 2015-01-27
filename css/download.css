@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+﻿﻿@charset "utf-8";
 body {
     background-color: #292929;
 }
@@ -197,7 +197,7 @@ body {
 
 .funcs {
     float: right;
-    width: 300px;
+    width: 340px;
 }
 
 .funcs a {
@@ -212,6 +212,11 @@ body {
     text-indent: 45px;
     color: #EAECEB;
     background-color: #212121;
+}
+.funcs a.down {
+    padding-right: 20px;
+    width: auto;
+    max-width: 150px;
 }
 
 .funcs a:hover {

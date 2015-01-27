@@ -60,7 +60,7 @@
         };
         var self = this;
         //左侧导航Action
-        var leftNavTriggers = ["leftnav:detail", "leftnav:changehead", "leftnav:changepsw", "leftnav:currentrate", "leftnav:dosage", "leftnav:watermark"];
+        var leftNavTriggers = ["leftnav:detail", "leftnav:changehead", "leftnav:changepsw", "leftnav:currentrate", "leftnav:dosage", "leftnav:watermark", "leftnav:invitation"];
         _.each(leftNavTriggers, function (trigger) {
             self.listenTo(CloudMamManager, trigger, function (params) {
                 CloudMamManager.navigate("user/center/" + params.type);

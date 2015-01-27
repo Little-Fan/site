@@ -77,7 +77,12 @@ define(["handlebars", "underscore", "apps/common/utility"], function (Handlebars
 		});
 
 		return "<ul " + attrs + ">" + context.map(function(item) {
-				return "<li>" + options.fn(item) + "</li>";
+                console.log(item);
+                if(item.entityTypeName == "Folder"){
+                    return '<li class="folder">' + options.fn(item) + '</li>';
+                } else {
+                    return '<li>' + options.fn(item) + '</li>';
+                }
 			}).join("\n") + "</ul>";
 	});
 
