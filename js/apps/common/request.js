@@ -7,12 +7,13 @@
             type: 'GET',
             data: null,
             dataType: 'JSON',
-            url: this.baseUrl ,
+            url: this.baseUrl,
             contentType: 'application/json; charset=utf-8',
             success: null,
-            error: function (req, status, ex) {  },
+            error: function(req, status, ex) {},
             timeout: 60000
-        }
+        };
+        this.isUpDownloadService = false;
     }
 
     request.prototype = {
@@ -152,6 +153,20 @@
             });
             return response.promise();
         },
+        getfiletype: function (restUrl, model, callback) {
+            var self = this;
+            var response = Backbone.ajax({
+                type: 'GET',
+                data: model ? $.param(model) : null,
+                dataType: 'JSON',
+                url: this.upLoadRESTfulIp + restUrl,
+                contentType: 'application/json; charset=utf-8',
+                success: callback,
+                error: function (req, status, ex) { self.error(req.status); },
+                timeout: 60000
+            });
+            return response.promise();
+        },
         download: function (restUrl, model, callback) {
             var self = this;
             var response = Backbone.ajax({
@@ -164,6 +179,7 @@
                 error: function (req, status, ex) { self.error(req.status); },
                 timeout: 60000
             });
+
             return response.promise();
         }
     }

@@ -228,7 +228,6 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
 
         Views.LeftSubNav = Marionette.ItemView.extend({
             tagName: "li",
-            //className: "",
             template: "mycloud/mycloud-nav-item",
             initialize: function () {
                 var self = this;

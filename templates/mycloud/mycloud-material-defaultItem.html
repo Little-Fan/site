@@ -1,10 +1,15 @@
 ﻿<dt>
     {{#equal status 0}}
-    <span class="status js-status">processing</span>
-    <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/load/loading.gif) 50% 50% no-repeat; background-size: 20%; " ></section>
+        <span class="status js-status">processing</span>
+        <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/load/loading.gif) 50% 50% no-repeat; background-size: 20%; " ></section>
     {{else}}
-    <span class="status js-status" style="color:red">failed</span>
-    <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/manage/failed.png) 50% 50% no-repeat; background-size: 35%; "></section>
+        {{#equal status 2}}
+            <span class="status js-status">processing</span>
+            <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.8) url('{{keyFramePath}}')" title="{{name}}"></section>
+        {{else}}
+            <span class="status js-status" style="color:red">failed</span>
+            <section class="tooltip material-other" style="background: rgba(0, 0, 0, 0.1) url(./images/manage/failed.png) 50% 50% no-repeat; background-size: 35%; "></section>
+        {{/equal}}
     {{/equal}}
 </dt>
 <dd>

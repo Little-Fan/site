@@ -1,5 +1,7 @@
 ﻿
-define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd', "notifierHelper", "jquery.spin", "localstorage", "zClip", "mCustomScrollbar"], function (CloudMamManager, request, config, utility, emailComponent, notifierHelper) {
+define([
+    "app", "request", "config", "apps/common/utility", 'apps/common/emailadd', "jquery.spin", "localstorage", "zClip", "mCustomScrollbar"],
+    function (CloudMamManager, request, config, utility, emailComponent) {
     CloudMamManager.module("MyCloudApp.Dialog", function(Dialog, CloudMamManager, Backbone, Marionette, $, _) {
         //定制对话框外点击失效
         Backbone.Modal.prototype.clickOutside = function(e) {
@@ -494,9 +496,11 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
             download: function(e) {
                 e && e.stopPropagation() && e.preventDefault();
                 var contentid = this.$(e.target).data('contentid');
-                var url = config.upLoadRESTfulIp + "/api/getfile/" + contentid;
-                window.open(url,'_self');
-                
+                //var url = config.upLoadRESTfulIp + "/api/getfile/" + contentid;
+                //window.open(url,'_self');
+                var data = { contentIds: [contentid], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
+                request.download('/api/download', data, function () { });
+
             },
             submit: function (e) {
                 e && e.stopPropagation() && e.preventDefault();
@@ -555,7 +559,10 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
                 "click .download a": "download",
                 "click .favorites": "collect"
             },
-            download: function (e) {},
+            download: function(e) {
+                var data = { contentIds: [this.params.contentID], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
+                request.download('/api/download', data, function () { });
+            },
             collect:function(event) {
                 var isFavorite = this.params.isFavorite;
                 if(isFavorite){
@@ -597,7 +604,7 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
                     this.$('.js-ratio-li').hide();
                 }
 
-                this.$('.download a').attr('href', config.upLoadRESTfulIp + "/api/getfile/" + this.params.contentID);
+                //this.$('.download a').attr('href', config.upLoadRESTfulIp + "/api/getfile/" + this.params.contentID);
 
                 var self = this;
                 var type = this.params.entityTypeName.toLowerCase();
@@ -872,12 +879,20 @@ define(["app", "request", "config", "apps/common/utility", 'apps/common/emailadd
                 options || {};
                 this.list = options.list;
             },
+            events: {
+                "click .download-name,.download-adress": "download",
+            },
+            download: function(e) {
+                var contentid = $(e.currentTarget).data('contentid');
+                var data = { contentIds: [contentid], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
+                request.download('/api/download', data, function () { });
+            },
             onShow: function () {
                 //刷新页面
                 var template = "";
                 _.forEach(this.list, function (value, key, list) {
-                    template += "<div class='download-div'> <a class='download-name' href='" + config.upLoadRESTfulIp + "/api/getfile/" + value.ContentID + "' width='351'>" + value.name + "</a>" +
-                        " <a class='download-adress' href='" + config.upLoadRESTfulIp + "/api/getfile/" + value.ContentID + "'></div>";
+                    template += "<div class='download-div'> <a class='download-name' data-contentid='"+value.ContentID+"' href='javascript:void(0);' width='351'>" + value.name + "</a>" +
+                        " <a class='download-adress' data-contentid='" + value.ContentID + "' href='javascript:void(0);'></div>";
                 });
                 this.$(".bbm-modal__section").append(template);
             }

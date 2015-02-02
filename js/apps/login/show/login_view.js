@@ -161,7 +161,7 @@
                         '<p data-dz-name></p>' +
                         '</li>'
                     var drop = $(".-ct-browse ul").dropzone({
-                        url             : "http://113.142.30.117" + "/uic/contactus/email",
+                        url             : config.dcmpRESTfulIp + "/uic/contactus/email",
                         paramName       : "screenshot",
                         clickable       : "#dropzoneForm",
                         method          : "post",

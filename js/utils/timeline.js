@@ -265,24 +265,27 @@ TimeLine.prototype.seekTo = function (frame) {
             this.sbvideoPlayer.pause();
             this.sbvideoPlayer.seek(frame);
             //播放完毕重置UI
-            if (this.sbvideoPlayer.onplayended)
+            if (!this.sbvideoPlayer.video.isPlaying && this.sbvideoPlayer.onplayended) {
                 this.sbvideoPlayer.onplayended.call(this.sbvideoPlayer.viewObj);
-
-            //当前片段播放结束
-            if (this.sbvideoPlayer.isstory) {
-                this.sbvideoPlayer._storyPlayEnded();
+                //当前片段播放结束
+                if (this.sbvideoPlayer.isstory) {
+                    this.sbvideoPlayer._storyPlayEnded();
+                }
             }
+            
         }
         if (frame > this.playRangeOutpoint) {
 
             frame = this.playRangeOutpoint;
             this.sbvideoPlayer.pause();
             this.sbvideoPlayer.seek(frame);
-            if (this.sbvideoPlayer.onplayended)
+
+            if (!this.sbvideoPlayer.video.isPlaying && this.sbvideoPlayer.onplayended) {
                 this.sbvideoPlayer.onplayended.call(this.sbvideoPlayer.viewObj);
 
-            if (this.sbvideoPlayer.isstory) {
-                this.sbvideoPlayer._storyPlayEnded();
+                if (this.sbvideoPlayer.isstory) {
+                    this.sbvideoPlayer._storyPlayEnded();
+                }
             }
         }
     }

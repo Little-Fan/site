@@ -17,8 +17,13 @@ var SbVideo = function (options) {
     this.video.currentframe = 0;
     this.video.isPlaying = false;
     this.timeline = this.obj.timeline;
+
     this.onplayended = this.obj.onplayended;//播放完成事件
     this.onloadCompleted = this.obj.onloadCompleted;//加载完事件
+    this.storyplayed = this.obj.storyplayed;//story播放设置
+    this.storyplayended = this.obj.storyplayended;//story播放完毕
+    this.onseekchange = this.obj.onseekchange || null;//时码change事件
+
     this.loadCompleted = false;
     this.onresize = this.obj.onresize;
     this.frameRate = this.obj.frameRate || 25;
@@ -27,10 +32,8 @@ var SbVideo = function (options) {
     this.isstory = this.obj.isstory || false;//是否Story播放
     this.playList = this.obj.playList || [];
     this.playIndex = 0;//story播放索引
-    this.storyplayed = this.obj.storyplayed;//story播放设置
     this.src = this.obj.src;
     this.combineKeyFrame = this.obj.combineKeyFrame || null;
-    this.onseekchange = this.obj.onseekchange || null;//时码change事件
     this.lastcurrentframe = 0;//记录进度线最后播放帧位置
 
     var self = this;
@@ -81,10 +84,15 @@ SbVideo.prototype = {
                 self.storyplayed.apply(self.viewObj, [self.playIndex, self.playList[self.playIndex]]);
                 //return;
             } else {
-                //story状态重置
+                //story播放完毕
+                var lastvideo = this.playList[this.playIndex - 1];
                 this.playList = [];
                 this.isstory = false;
+                this.timeline.lockRange = false;
                 this.playIndex = 0;
+                if (this.storyplayended)
+                    this.storyplayended.call(self.viewObj, lastvideo);
+
             }
         } 
         
@@ -128,7 +136,13 @@ SbVideo.prototype = {
                 if (!self.inoutdrag) self.lastcurrentframe = tc.frames;
 
                 if (self.timeline && !self.inoutdrag) {
-                    self.timeline.seekTo(self.video.currentframe);
+                    //我R 什么破bug
+                    //由于时码与帧计算精度bug 造成时间线初始seekTo位置(currentframe)< (playRangeInpoint)
+                    //造成story播放时"跳播"
+                    if (self.isstory && self.video.currentframe < self.timeline.playRangeInpoint)
+                        self.timeline.seekTo(self.timeline.playRangeInpoint);
+                    else
+                        self.timeline.seekTo(self.video.currentframe);
                 }
 
                 if (self.video.ended) {
@@ -257,22 +271,29 @@ SbVideo.prototype.getcurrentframe = function () {
 
 //区间播放
 SbVideo.prototype._start = function () {
-    if (this.intervalId) {
+    if (!this.intervalId) {
         this.pause();
     }
     var self = this;
+    this.video.isPlaying = true;
     var timerInterval = function () {
         //var tc = new TimeCode({seconds: video.currentTime, frameRate: frameRate});
         //video.currentframe = tc.frames;
         self.video.ontimeupdate();
     }
     this.intervalId = window.setInterval(timerInterval, Math.floor(1000 / (2 * this.frameRate)));
-    this.video.isPlaying = true;
-    //
-    if (this.lastcurrentframe) {
-        console.log('last current frame: ' + self.lastcurrentframe);
-        this.seek(self.lastcurrentframe);
+    
+    //story播放
+    if (this.isstory && this.timeline.playRangeInpoint) {
+        this.seek(this.timeline.playRangeInpoint);
+    } else {
+    //一般播放
+        if (this.lastcurrentframe) {
+            console.log('last current frame: ' + self.lastcurrentframe);
+            this.seek(self.lastcurrentframe);
+        }
     }
+    
     this.video.play();
 };
 

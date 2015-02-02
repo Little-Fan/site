@@ -63,8 +63,8 @@
 
             initialize: function () {
 
-                //this.playendedcount = 0;
-                var self = this;
+                var self = this, selectedItem = null;
+                
 
                 this.listenTo(CloudMamManager, 'player:play', function (option) {
                     if (option) {
@@ -106,14 +106,17 @@
                 });
 
                 //点击片段seek播放
-                this.listenTo(CloudMamManager, 'fragement:seekplay', function (option) {
-                   var selectedItem = _.filter(self.model.get('entities'), function (entity) {
-                       return entity.contentId == option.get('contentId');
+                this.listenTo(CloudMamManager, 'fragement:seekplay', function(option) {
+                    var selected = _.filter(self.model.get('entities'), function(entity) {
+                        return entity.contentId == option.get('contentId');
                     });
+                    if (selectedItem == selected) return;
+                    else selectedItem = selected;
 
-                    self.video.onloadCompleted = function () {//onloadeddata /oncanplay
-                        self.timeline.cleaInOutPoint();//清除打点
+                    self.video.onloadCompleted = function() { //onloadeddata /oncanplay
+                        self.timeline.cleaInOutPoint(); 
                         self.timeline.setInOutPoint(TimeCodeConvert.L100Ns2Frame(option.get('inpoint'), option.get('frameRate') ? option.get('frameRate') : 25), TimeCodeConvert.L100Ns2Frame(option.get('outpoint'), option.get('frameRate') ? option.get('frameRate') : 25), true);
+                        $("#timeLine_bg").addClass("white");
                     }
                     self.video.setSrc(selectedItem[0].mediaPlayAddress, self.cutString(selectedItem[0].keyFramePath, selectedItem[0].contentId));
                     self.ui.title.html(selectedItem[0].name);
@@ -347,6 +350,7 @@
                         self.video.onloadCompleted = function () {
                             self.timeline.cleaInOutPoint(); //清除打点
                             self.timeline.setInOutPoint(TimeCodeConvert.L100Ns2Frame(params.inpoint, params.frameRate ? params.frameRate : 25), TimeCodeConvert.L100Ns2Frame(params.outpoint, params.frameRate ? params.frameRate : 25), true);
+                            $("#timeLine_bg").addClass("white");
                             self.video.play();
                         }
                         //story播放设置片段选中
@@ -354,7 +358,17 @@
                             self.trigger("story:fragement:toggleSelecte", params.model);
                         self.video.setSrc(params.src, params.bgsrc);
                         self.ui.title.html(params.name);
+                    },
+                    storyplayended: function(lastvideo) {
+                        //story播放完毕
+                        self.trigger("story:fragement:toggleSelecte", lastvideo.model);
+                        self.timeline.cleaInOutPoint();
+                        $("#timeLine_bg").removeClass("white");
+                        $(".cut-dialog").hide();
+                        this.trigger('player:ended');
+                        self.video.seek(0);
                     }
+
                 });
 
                 this.timeline.init();

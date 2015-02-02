@@ -195,7 +195,7 @@
 	            return request.get("/ac/transcode/" + id);
 	        },
 	        getType: function() {
-	            return request.download("/api/cliptype");
+	            return request.getfiletype("/api/cliptype");
 	        },
 	        getEntity: function(id) {
 	            return request.get("/emc/entity/" + id);

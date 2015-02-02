@@ -884,14 +884,18 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
                 this.timer = setInterval(function() {
                     request.get('/emc/entity/' + self.model.get('contentID'), null, function (res) {
                         self.res = res;
+                        //1:成功  2：执行中,抽帧已成功
                         if (self.res.status == 1) {
-                            self.$el.fadeOut(function () {
+                            self.$el.fadeOut(function() {
                                 //上传文件成功更换模板
                                 self.trigger('add:model', self);
                                 Marionette.ItemView.prototype.remove.call(self);
                             });
                             clearInterval(self.timer);
                             return;
+                        }
+                        if (self.res.status == 2) {
+                            self.model.set({ 'status': 2, 'keyFramePath': self.res.keyFramePath, "name": self.res.name });
                         }
                     }, true);
                 }, 3000);
@@ -912,7 +916,7 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
                     case "Folder":
                         return View.Folder;
                     case "Clip":
-                        if (item.get("status") == 0) {
+                        if (item.get("status") == 0 || item.get("status") == 2) {
                             return View.Add;
                         }
                         return View.Media;
@@ -926,7 +930,7 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
                             item.set({ canShowSuffix: true, fileTypeExt: fileTypeExt }, { silent: true });
                         }
 
-                        if (item.get("status") == 0) {
+                        if (item.get("status") == 0 || item.get("status") == 2) {
                             return View.Add;
                         }
                         return View.Other;

@@ -40,7 +40,9 @@
     </td>
 <td width="15%">
     <div style="position: relative;">
-        提取码： {{accessCode}}<a class="js-accessCodeCopy" data-accesscode="{{accessCode}}" style="color: #1E8873; margin-left: 5px; ">复制</a>
+        {{#equal status 0}}
+            提取码： {{accessCode}}<a class="js-accessCodeCopy" data-accesscode="{{accessCode}}" style="color: #1E8873; margin-left: 5px; ">复制</a>
+        {{/equal}}
     </div>
 </td>
     <td width="10%">
@@ -65,10 +67,22 @@
         {{/if}}
     </td>
 <td width="10%">
-    {{#equal status 2}}
+    <div style="position: relative;">
+        
+        {{#equal status 0}}
+        <a class="urlcopy js-accessCodeCopy" data-accesscode="{{accessCode}}" data-shorturl="{{shortUrl}}" style="color: #1E8873; margin-right: 5px;">复制</a>
+        {{/equal}}
+        
+
+        {{#equal status 2}}
         <span class="delete-transcode control js-delete" title="删除分享"></span>
-    {{else}}
+        {{else}}
+        {{#equal status 3}}
+        <span class="delete-transcode control js-delete" title="删除分享"></span>
+        {{else}}
         <span class="cancel-share control  js-cancelShare" title="取消分享"></span>
-    {{/equal}}
+        {{/equal}}
+        {{/equal}}
+    </div>
 </td>
 {{/equal}}

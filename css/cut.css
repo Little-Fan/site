@@ -458,10 +458,7 @@ body{
     left:0px;
     border-top: 1px solid #000;
 }
-#timeline {
-    position: relative;
-    z-index: 1;
-}
+
 #timeLine_bg.white{
     border-top: 1px solid #fff;
 }

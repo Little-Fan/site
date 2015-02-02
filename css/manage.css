@@ -917,24 +917,53 @@
 	
 }
 .nav li {
+    height: 40px;
 	background: url(../images/manage/nav_bg.png) repeat-x scroll left top;
 	margin-top: -2px;
-	line-height: 41px;	
+	line-height: 40px;
 }
 .nav li.first{	
 	background: url(../images/manage/nav_bg.png) repeat-x scroll left top;	
 	margin-top: 0;
 }
 .nav li a{
+    position: relative;
 	display: block;
-	color: #cccccc;
-	padding-left: 30px;
-	font: bold 14px/41px "微软雅黑";	
+	padding-left: 60px;
+	font: bold 14px/41px "微软雅黑";
+    color: #cccccc;
 }
-.nav li img{
-    width:18px;height:17px;
-	margin-right: 20px;
-	vertical-align: middle;
+.nav li i{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    background: transparent no-repeat scroll url(../images/mcloud/icon_leftnav.png) 0 0;
+}
+.nav li i.All {
+    background-position: 0 0;
+}
+.nav li i.Clip {
+    background-position: -20px 0;
+}
+.nav li i.Audio {
+    background-position: -40px 0;
+}
+.nav li i.Picture {
+     background-position: -60px 0;
+}
+.nav li i.Document {
+    background-position: -80px 0;
+}
+.nav li i.Other {
+    background-position: -100px 0;
+}
+.nav li i.Favorite {
+    background-position: -120px 0;
+}
+.nav li i.Recycle {
+    background-position: -140px 0;
 }
 .nav li .title { margin-left: 38px; }
 .subnav { margin: 10px 0;}
@@ -1048,11 +1077,11 @@
 	color: #0dbfd8;
 }
 .content {
+    overflow-y: auto;
     padding-top: 10px;
     margin-left: 20px;
     margin-bottom: 50px;
     height: calc(100% - 108px);
-    overflow: auto;
 }
 
 .-uc-content {
@@ -2193,21 +2222,59 @@
     font: bold 16px/40px 'Microsoft Yahei';
     color: #fff;
 }
+/* 设置水印 start*/
+.-uc-details .container {
+    margin-top: 30px;
+}
+
+.-uc-details .container {
+    font: bold 14px/35px 'Microsoft YaHei';
+    color: #FFF;
+}
+
+.-uc-details .container .key-word {
+    color: #999;
+}
+
+.-uc-details .container .control-btn {
+    margin-top: 10px;
+}
+
+.-uc-details .container .-wm-uploaded {
+    border: 0;
+    width: 103px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #414443;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.-uc-details .container .-wm-uploaded:hover {
+    background-color: #056673;
+}
+#img-preview {
+    display: none;
+    width: 0;
+    height: 0;
+}
+/* 设置水印 end */
 .-uc-details img{ margin: 0; padding : 0;}
  .-uc-main{ background: #292929; min-width: 1100px; width: 100%; min-height: 100%; }
  .-uc-left{ width: 270px; height: calc(100% - 65px); min-height: 400px; background: #181818; position: absolute; left: 0px; top: 65px; position: fixed; }
  .-uc-left .nav{ margin-top:50px; }
  .-uc-right{ margin-left: 280px; padding-top: 75px; position: relative; }
- .-uc-details{
-     width: 90% !important;
-     margin-top: 2%;
-     padding: 0 5%;
-     height: 96% !important;
-     overflow: auto;
+ .main .-uc-details{
+     width: calc(100% - 40px);
+     padding: 20px;
+     height: calc(100% - 40px);
+     overflow-y: auto;
+     overflow-x: hidden;
  }
  .-uc-center{ margin-left:38px; }
  .-us-loginbox{  float: right; margin-right: 20px; width: 250px; vertical-align: middle; }
  .-uc-detail{
+     margin-top: 30px;
     width:850px;
  }
  .-uc-detail li{
@@ -2501,6 +2568,12 @@
     cursor: pointer;
     border-radius: 2px;
 }
+#swf1 {
+    color: #FFF;
+}
+#swf1 a {
+    color: #F00;
+}
 #upload i,
 #webcam i {
     display: block;
@@ -2535,7 +2608,7 @@
 }
 .change-avatar dl.noMargin{margin:0 auto}
 .change-avatar dl.noMargin dt{margin:0}
-/*<----------tabs-----------*/
+/*<----------tabs end-----------*/
 #userAlbums{width:100%}
 #userAlbums li{margin-bottom:12px;float:left;width:194px;}
 #userAlbums li img{ width: 100%; height : 100%;}
@@ -2666,21 +2739,7 @@ a.button_shutter.Disabled:hover{
 .-uc-allsize{ color:#eee !important; }
 .-uc-consumption li i{ font-style:normal; }
 
-/*设置水印*/
-/*watermark  -wm-*/
-.-wm-uploaded{
-    width: 103px;
-    height: 31px;
-    line-height: 31px;
-    background: #414443;
-    color: #ccc;
-    cursor: pointer;
-    border: 0;
-    margin-top:50px;
-}
-.-wm-uploaded:hover{
-    background: rgba(13, 191, 216, 0.60);
-}
+
 .-wm-request{
     clear:both;
     width:802px;
@@ -2726,7 +2785,19 @@ a.button_shutter.Disabled:hover{
     border:1px solid #aaa;
     width:0px;
 }
- .-uc-details .-wm-preserve .creation{ margin-left:20px; width: 140px; height: 36px; background-color: rgba(13, 191, 216, 0.60); border: none; font-weight: bold; font-family:  Microsoft Yahei; padding-left:0;margin-top: 20px;cursor: pointer; }
+.-wm-preserve {
+    margin: 20px auto;
+}
+ .-uc-details .-wm-preserve .creation{
+     margin-right: 40px;
+     border: none;
+     padding-left:0;
+     width: 140px;
+     height: 36px;
+     font: bold 18px/36px "Microsoft Yahei";
+     background-color: #056673;
+     cursor: pointer;
+ }
 
  /*********任务管理*********/
   /*前缀：-tm-*/
@@ -2835,7 +2906,13 @@ a.button_shutter.Disabled:hover{
     width: 22px;
     line-height: 16px;
 }
-.manage-table tr:hover .control {
+.manage-table .urlcopy {
+    visibility:hidden;
+}
+.manage-table tr:hover .urlcopy {
+    visibility: visible;
+}
+.manage-table tr:hover .control{
     display: inline-block;
 }
 

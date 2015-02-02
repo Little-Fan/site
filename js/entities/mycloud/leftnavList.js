@@ -18,17 +18,56 @@
 
         var initializeSubnavs = function () {
             Entities.subnavs = new Entities.SubnavCollection(
-				
-                    [
-                        { title: '全部文件', router: 'All',prefix:"nav", imgUrl: 'images/manage/icon_1.png', navigateTrigger: "leftnav:alllist" },
-                        { title: '视音频', router: 'Clip', prefix: "nav", imgUrl: 'images/manage/icon_4.png', navigateTrigger: "leftnav:avlist" },
-                        { title: '音频', router: 'Audio', prefix: "nav", imgUrl: 'images/manage/icon_18.png', navigateTrigger: "leftnav:avlist" },
-                        { title: '图片', router: 'Picture', prefix: "nav", imgUrl: 'images/manage/icon_53.png', navigateTrigger: "leftnav:piclist" },
-                        { title: '文档', router: 'Document', prefix: "nav", imgUrl: 'images/manage/icon_6.png', navigateTrigger: "leftnav:doclist" },
-                        { title: '其他', router: 'Other', prefix: "nav", imgUrl: 'images/manage/icon_7.png', navigateTrigger: "leftnav:otherlist" },
-                        { title: '常用文件', router: 'Favorite', prefix: "nav", imgUrl: 'images/manage/icon_3.png', navigateTrigger: "leftnav:commonlist" },
-                        { title: '回收站', router: 'Recycle', prefix: "nav", imgUrl: 'images/manage/icon_2.png', navigateTrigger: "leftnav:recyclelist" }
-                    ]
+                [
+                    {
+                        title          : '全部文件',
+                        router         : 'All',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:alllist"
+                    },
+                    {
+                        title          : '视音频',
+                        router         : 'Clip',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:avlist"
+                    },
+                    {
+                        title          : '音频',
+                        router         : 'Audio',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:avlist"
+                    },
+                    {
+                        title          : '图片',
+                        router         : 'Picture',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:piclist"
+                    },
+                    {
+                        title          : '文档',
+                        router         : 'Document',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:doclist"
+                    },
+                    {
+                        title          : '其他',
+                        router         : 'Other',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:otherlist"
+                    },
+                    {
+                        title          : '常用文件',
+                        router         : 'Favorite',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:commonlist"
+                    },
+                    {
+                        title          : '回收站',
+                        router         : 'Recycle',
+                        prefix         : "nav",
+                        navigateTrigger: "leftnav:recyclelist"
+                    }
+                ]
 				
             );
         };
