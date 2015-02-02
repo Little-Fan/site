@@ -67,18 +67,10 @@ SbVideo.prototype = {
             this.video.onloadeddata();
         }
     },
-    
-    initPlay: function () {
-        var self = this;
-        var num = 0;
-        var timeFunName = null;
-        console.log("initPlay");
-        if (this.timeline) {
-            //播放器对象回传
-            this.timeline.sbvideoPlayer = this;
-        }
 
+    initStoryPlay: function() {
         //story Play 
+        var self = this;
         if (this.playList && this.playList.length > 0 && this.isstory) {
             if (this.playList.length >= (this.playIndex + 1) && this.storyplayed) {
                 self.storyplayed.apply(self.viewObj, [self.playIndex, self.playList[self.playIndex]]);
@@ -94,7 +86,37 @@ SbVideo.prototype = {
                     this.storyplayended.call(self.viewObj, lastvideo);
 
             }
-        } 
+        }
+        this.initPlay();
+    },
+    
+    initPlay: function () {
+        var self = this;
+        var num = 0;
+        var timeFunName = null;
+        console.log("initPlay");
+        if (this.timeline) {
+            //播放器对象回传
+            this.timeline.sbvideoPlayer = this;
+        }
+
+        //story Play 
+        //if (this.playList && this.playList.length > 0 && this.isstory) {
+        //    if (this.playList.length >= (this.playIndex + 1) && this.storyplayed) {
+        //        self.storyplayed.apply(self.viewObj, [self.playIndex, self.playList[self.playIndex]]);
+        //        //return;
+        //    } else {
+        //        //story播放完毕
+        //        var lastvideo = this.playList[this.playIndex - 1];
+        //        this.playList = [];
+        //        this.isstory = false;
+        //        this.timeline.lockRange = false;
+        //        this.playIndex = 0;
+        //        if (this.storyplayended)
+        //            this.storyplayended.call(self.viewObj, lastvideo);
+
+        //    }
+        //} 
         
         this.video.onclick = function () {
             clearTimeout(timeFunName);
@@ -192,7 +214,7 @@ SbVideo.prototype = {
     _storyPlayEnded: function () {
         if (this.playList && this.playList.length > 0 && this.isstory) {
             ++this.playIndex;
-            this.initPlay();
+            this.initStoryPlay();
         }
     },
 
@@ -203,7 +225,7 @@ SbVideo.prototype = {
     setstoryList: function (playList) {
         this.playList = playList;
         if (this.playList && this.playList.length > 0 && this.isstory) {
-            this.initPlay();
+            this.initStoryPlay();
         }
     },
     /**

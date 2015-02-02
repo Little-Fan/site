@@ -201,14 +201,14 @@
                         path: 'js/libs/ZeroClipboard.swf',
                         copy: function () {
                             if ($(this).data('shorturl'))
-                                return [$(this).data('accesscode'), "  (提取码：", $(this).data('shorturl'), ")"].join('');
+                                return [$(this).data('shorturl'), "  (提取码：", $(this).data('accesscode'), ")"].join('');
                             else 
                                 return $(this).data('accesscode');
                         },
                         beforeCopy: function () {
                         },
                         afterCopy: function (e1) {
-                            alert('提取码已经复制到剪贴板');
+                            alert('短地址和提取码已经复制到剪贴板');
                         }
                     });
                     this.hasRegisted = !this.hasRegisted;

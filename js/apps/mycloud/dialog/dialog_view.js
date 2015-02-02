@@ -496,10 +496,11 @@ define([
             download: function(e) {
                 e && e.stopPropagation() && e.preventDefault();
                 var contentid = this.$(e.target).data('contentid');
-                //var url = config.upLoadRESTfulIp + "/api/getfile/" + contentid;
-                //window.open(url,'_self');
                 var data = { contentIds: [contentid], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
-                request.download('/api/download', data, function () { });
+                var url = ['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/');
+                window.open(url,'_self');
+                
+                //request.download(['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/'), null, function () { });
 
             },
             submit: function (e) {
@@ -561,7 +562,7 @@ define([
             },
             download: function(e) {
                 var data = { contentIds: [this.params.contentID], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
-                request.download('/api/download', data, function () { });
+                request.download(['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/'), null, function () { });
             },
             collect:function(event) {
                 var isFavorite = this.params.isFavorite;
@@ -604,7 +605,10 @@ define([
                     this.$('.js-ratio-li').hide();
                 }
 
-                //this.$('.download a').attr('href', config.upLoadRESTfulIp + "/api/getfile/" + this.params.contentID);
+
+                var data = { contentIds: [this.params.contentID], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
+                //request.download(['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/'), null, function () { });
+                this.$('.download a').attr('href', ['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode]);
 
                 var self = this;
                 var type = this.params.entityTypeName.toLowerCase();
@@ -878,21 +882,29 @@ define([
             initialize: function (options) {
                 options || {};
                 this.list = options.list;
+                this.creatorCode = utility.localStorage.getUserInfo().info.userCode;
             },
             events: {
                 "click .download-name,.download-adress": "download",
             },
-            download: function(e) {
+            download: function (e) {
+                /*
                 var contentid = $(e.currentTarget).data('contentid');
                 var data = { contentIds: [contentid], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
-                request.download('/api/download', data, function () { });
+                request.download(['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/'), null, function() {});
+                */
             },
             onShow: function () {
                 //刷新页面
-                var template = "";
-                _.forEach(this.list, function (value, key, list) {
-                    template += "<div class='download-div'> <a class='download-name' data-contentid='"+value.ContentID+"' href='javascript:void(0);' width='351'>" + value.name + "</a>" +
-                        " <a class='download-adress' data-contentid='" + value.ContentID + "' href='javascript:void(0);'></div>";
+                var self = this, template = "";
+                _.forEach(this.list, function(value, key, list) {
+                    template +=
+                        "<div class='download-div'> <a class='download-name' data-contentid='" + value.ContentID + "' href='"
+                        + config.upLoadRESTfulIp + "/api/download/" + value.ContentID + "/-1/" + self.creatorCode
+                        + "' width='351'>" + value.name + "</a>" +
+                        " <a class='download-adress' data-contentid='" + value.ContentID + "' href='"
+                        + config.upLoadRESTfulIp + "/api/download/" + value.ContentID + "/-1/" + self.creatorCode
+                        + "'></div>";
                 });
                 this.$(".bbm-modal__section").append(template);
             }
