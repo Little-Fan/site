@@ -2299,13 +2299,19 @@
     width: 103px;
     height: 30px;
     line-height: 30px;
-    background-color: #414443;
+    background-color: #056673;
     color: #FFF;
     cursor: pointer;
 }
-
-.-uc-details .container .-wm-uploaded:hover {
-    background-color: #056673;
+.-uc-details .container .message {
+    margin-left: 20px;
+    font-size: 14px;
+}
+.-uc-details .container .message.btn-error {
+    color: #da4f49;
+}
+.-uc-details .container .message.btn-success {
+    color: #5bb75b;
 }
 #img-preview {
     display: none;

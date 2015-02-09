@@ -461,10 +461,9 @@
                     thumbnailWidth  : 70,
                     thumbnailHeight : 50,
                     addRemoveLinks  : true,
-                    dictFileTooBig : "允许上传的最大文件为 {{maxFilesize}} MB</br>你当前的文件大小实为 {{filesize}} MB",
+                    dictFileTooBig : "允许上传的最大文件为 {{maxFilesize}} MB,你当前的文件大小实为 {{filesize}} MB",
                     accept: function(file, done) {
                         var fileExt = self.getFileExt(file.name).toUpperCase();
-                        console.log(fileExt);
                         if (fileExt !== "TGA") {
                             done("文件格式不正确");
                         } else {
@@ -474,22 +473,22 @@
                     init            : function () {
                         var myDialog, dropzoneForm = this;
                         this.on("addedfile", function (file) {
-                            myDialog = art.dialog({
-                                lock: true
-                            });// 初始化一个带有loading图标的空对话框
+                            //增加文件
                         });
                         this.on('sending', function (file, xhr, formData) {
                             //发送中附加的字段名
                             formData.append('location',5);
                         });
                         this.on("error", function (file, errorMessage, xhr) {
-                            myDialog.title("出错消息").content(errorMessage);
+                            self.$(".message").removeClass("btn-success").addClass("btn-error").text(errorMessage);
                         });
                         this.on("success", function (file, xhr) {
                             if(xhr.status == 1){
-                                myDialog.title("成功消息").content(xhr.watermarkPath); // 填充对话框内容(xhr);
+                                // 填充对话框内容(xhr);
+                                self.$(".message").removeClass("btn-error").addClass("btn-success").text(xhr.watermarkPath);
                             } else {
-                                myDialog.title("失败消息").content(xhr.errorMessage); // 填充对话框内容(xhr);
+                                // 填充对话框内容(xhr);
+                                self.$(".message").removeClass("btn-error").addClass("btn-success").text(xhr.errorMessage);
                             }
                         });
                     }
