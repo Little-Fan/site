@@ -1,4 +1,4 @@
-﻿define(["app", "apps/common/utility", "config", "dropzone", "artDialog"], function (CloudMamManager, utility, config) {
+﻿define(["app", "request" ,"apps/common/utility", "config", "dropzone", "artDialog"], function (CloudMamManager, request, utility, config) {
     CloudMamManager.module("UserCenterApp.UserCenter.View", function(View, CloudMamManager, Backbone, Marionette, $, _) {
 
         View.Detail = Marionette.ItemView.extend({
@@ -72,13 +72,14 @@
             },
             onDomRefresh: function () {
                 var self = this;
-                if (this.userInfo.info) {
-                    this.ui.realname.val();
-                    this.ui.telphone.val(this.userInfo.info.mobileNum);
-                    this.ui.email.val();
-                }
-
-
+                request.get('/uic/userInfoDetail/' + this.userInfo.info.userCode, null, function(res) {
+                    if (res.userInfo) {
+                        this.ui.realname.val();
+                        this.ui.telphone.val(res.userInfo.mobileNum);
+                        this.ui.email.val(res.userInfo.email);
+                    }
+                }, true);
+                
                 //注册文本输入及时验证
                 this.$('input').keyup(function(e) {
                     var type = $(e.currentTarget).attr('name').toLowerCase();

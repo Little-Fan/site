@@ -1,5 +1,5 @@
 ﻿define(["app", "apps/common/views", "apps/mycloud/dialog/dialog_view", "apps/common/utility", "utils/templates",
-        "config","dropzone", "request", "jquery-ui", "tooltipster"],
+        "config", "dropzone", "request", "jquery-ui", "tooltipster"],
     function (CloudMamManager, CommonViews, Dialog, utility, templates, config, Dropzone, request) {
         CloudMamManager.module("LoginApp.Login.View", function (View, CloudMamManager, Backbone, Marionette, $, _) {
 
@@ -69,49 +69,214 @@
                 onRender  : function () {
                     $('body').addClass('login-bg');
                     if (utility.localStorage.getUserInfo()) {
-
+                        this.ui.username.val(utility.localStorage.getUserInfo().info.userCode);
                     }
-                    //this.ui.username.val(utility.localStorage.getUserInfo().info.userCode);
                 }
             });
 
             View.ForgetFirstStep = Marionette.ItemView.extend({
-                template     : "login/forget-firststep",
-                className    : "fg-wrapper",
-                ui           : {
-                    "firstnext": ".js-first-next"
+                initialize: function (options) {
+                    this.isSubmit = false;
                 },
-                events       : {
-                    "click @ui.firstnext": "firstNextStep"
+                template  : "login/forget-firststep",
+                className : "fg-wrapper",
+                ui        : {
+                    "firstnext" : ".js-first-next",
+                    "userName"  : "#userName",
+                    "verity"    : "#verify",
+                    "verityCode": "#verifyImg"
+                },
+                events    : {
+                    "click @ui.firstnext" : "firstNextStep",
+                    "click @ui.verityCode": "changeVerity",
+                    "blur  @ui.verity"    : "captcha"
+                },
+                captcha   : function (e) {
+                    var self = this;
+                    var captcha = this.ui.verity.val();
+                    $.ajax({
+                        url    : config.dcmpRESTfulIp + "/uic/verifyCodeImg",
+                        type   : "POST",
+                        data   : {verifyCode : captcha},
+                        success: function (data) {
+                            if(data == "true"){
+                                self.ui.verity.removeClass().addClass("success");
+                                self.isSubmit = true;
+                            } else {
+                                self.ui.verity.removeClass().addClass("error");
+                                self.isSubmit = false;
+                            }
+                        }
+                    })
+                },
+                changeVerity : function () {
+                    var src = this.getVerity();
+                    this.ui.verityCode.prop("src", src);
+                },
+                getVerity    : function () {
+                    return config.dcmpRESTfulIp + "/uic/verifyCodeImg?" + Math.random();
                 },
                 firstNextStep: function () {
-                    this.trigger('first:nextstep');
+                    var self = this;
+                    var userName = $.trim(this.ui.userName.val());
+                    var verity = $.trim(this.ui.verity.val());
+                    if(this.isSubmit) {
+                        if (!userName) {
+                            alert("用户名不能为空");
+                            this.ui.userName.focus();
+                        } else if (!verity) {
+                            alert("验证码不能为空");
+                            this.ui.verity.focus();
+                        } else {
+                            var dotting = this.$(".btn").find("b");
+                            dotting.addClass("dotting");
+                            $.ajax({
+                                url     : config.dcmpRESTfulIp + "/uic/userInfoDetail/" + userName,
+                                dataType: "json",
+                                success : function (data) {
+                                    var status = parseInt(data.status);
+                                    if (parseInt(data.status) === 0) {
+                                        alert("用户名不存在")
+                                        dotting.removeClass("dotting");
+                                    } else {
+                                        var mobileNum = data.userInfo.mobileNum;
+                                        var userId = data["user_id"];
+                                        View.options = {
+                                            userName : userName,
+                                            mobileNum: mobileNum,
+                                            userId   : userId
+                                        }
+                                        View.trigger('first:nextstep', {
+                                            userName : userName,
+                                            mobileNum: mobileNum
+                                        });
+                                    }
+                                }
+                            })
+                        }
+                    } else {
+                        alert("验证码错误");
+                    }
+                },
+                onShow       : function () {
+                    this.changeVerity();
                 }
             });
             View.ForgetSecondStep = Marionette.ItemView.extend({
+                initialize    : function (options) {
+                    console.log(options);
+                },
                 template      : "login/forget-secondstep",
                 className     : "fg-wrapper",
                 ui            : {
-                    "secondtnext": ".js-second-next"
+                    "secondtnext": ".js-second-next",
+                    "username"   : "#username",
+                    "phone"      : "#phone",
+                    "verifyCodeSend"    : "#verifyCodeSend",
+                    "verityCode" : "#verityCode"
                 },
                 events        : {
-                    "click @ui.secondtnext": "secondNextStep"
+                    "click @ui.secondtnext": "secondNextStep",
+                    "click @ui.verifyCodeSend" : "verityCodeSent"
+                },
+                verityCodeSent : function (e) {
+                    var self = this;
+                    var ele = this.ui.verifyCodeSend;
+                    console.log(ele);
+                    var telephoneVal = this.ui.phone.text();
+                    var wait = 60;
+                    //短息验证倒计时
+                    function time() {
+                        if (wait == 0) {
+                            ele.removeClass("disabled").val("获取短信验证码").prop("disabled", false);
+                            wait = 60;
+                        } else {
+                            // 按钮不可用，增加不可用样式，并且开始倒计时;
+                            ele.addClass("disabled").val("重新发送(" + wait + ")").prop("disabled", true);
+                            wait--;
+                            setTimeout(function () {time();}, 1000);
+                        }
+                    }
+                    if (telephoneVal) {
+                        $.ajax({
+                            url     : config.dcmpRESTfulIp + "/uic/verificationCode?mobileNum=" + telephoneVal,
+                            type    : "GET",
+                            dataType: "json",
+                            success : function (data) {
+                                console.log(data);
+                            }
+                        })
+                        time();
+                    }
                 },
                 secondNextStep: function () {
-                    this.trigger('second:nextstep');
+                    var self = this;
+                    var verityCode = this.ui.verityCode.val();
+                    if(!verityCode){
+                        alert("验证码不能为空");
+                    } else {
+                        $.ajax({
+                            url     : config.dcmpRESTfulIp + "/uic/verificationCode",
+                            type    : "POST",
+                            data    : {
+                                mobileNum : this.ui.phone.text(),
+                                verificationCode :  verityCode
+                            },
+                            success : function (data) {
+                                if(data){
+                                    View.trigger('second:nextstep');
+                                } else {
+                                    alert("验证码不正确");
+                                }
+                            }
+                        })
+                    }
+                },
+                onShow        : function () {
+                    this.ui.username.text(this.options.userName);
+                    this.ui.phone.text(this.options.mobileNum);
                 }
             });
             View.ForgetThirdStep = Marionette.ItemView.extend({
-                template     : "login/forget-thirdstep",
-                className    : "fg-wrapper",
-                ui           : {
-                    "thirdtnext": ".js-third-next"
+                template : "login/forget-thirdstep",
+                className: "fg-wrapper",
+                ui       : {
+                    "password"      : "#password",
+                    "passwordRepeat": "#passwordRepeat",
+                    "thirdtnext"    : ".js-third-next"
                 },
-                events       : {
+                events   : {
                     "click @ui.thirdtnext": "thirdNextStep"
                 },
                 thirdNextStep: function () {
-                    this.trigger('third:nextstep');
+                    var password = this.ui.password.val();
+                    var passwordRepeat = this.ui.passwordRepeat.val();
+                    if(!password){
+                        alert("密码不能为空")
+                    } else if (password !== passwordRepeat){
+                        alert("密码不一致")
+                    } else {
+                        var self = this;
+                        console.log(View.options);
+                        $.ajax({
+                            url     : config.dcmpRESTfulIp + "/uic/changePasswordAfterVerification",
+                            type    : "POST",
+                            dataType: 'JSON',
+                            data    : {
+                                userId     : View.options.userId,
+                                userCode   : View.options.userName,
+                                newPassword: self.ui.passwordRepeat.val()
+                            },
+                            success : function (data) {
+                                var status =  parseInt(data.status);
+                                if (status == 1) {
+                                    View.trigger('third:nextstep');
+                                } else {
+                                    alert("密码修改不成功");
+                                }
+                            }
+                        })
+                    }
                 }
             });
             View.ForgetLastStep = Marionette.ItemView.extend({
@@ -195,7 +360,7 @@
                             });
                             this.on('sendingmultiple', function (file, xhr, formData) {
                                 //多文件发送中附加的字段名
-                                formData.append('emailContent',feedbackTxt);
+                                formData.append('emailContent', feedbackTxt);
                                 formData.append('contactEmail', email);
                             });
                             var submitButton = $(".-ct-set");
@@ -204,19 +369,19 @@
                                 feedbackTxt = self.ui.feedback.val();
                                 email = self.ui.email.val();
                                 var files = dropzoneForm.files.length;  //用户上传的图片数
-                                if(!feedbackTxt){
+                                if (!feedbackTxt) {
                                     alert("反馈信息不能为空");
-                                } else if(!email){
+                                } else if (!email) {
                                     alert("邮箱不能为空");
-                                } else if(!reg.test(email)){
+                                } else if (!reg.test(email)) {
                                     alert("邮箱格式不正确")
-                                } else if(files === 0) {
-                                    request.post("/uic/contactus/email",{
-                                        'emailContent':feedbackTxt,
+                                } else if (files === 0) {
+                                    request.post("/uic/contactus/email", {
+                                        'emailContent': feedbackTxt,
                                         'contactEmail': email,
-                                        'screenshot' : ''
-                                    },function(data){
-                                        if(data){
+                                        'screenshot'  : ''
+                                    }, function (data) {
+                                        if (data) {
                                             alert("上传成功");
                                         } else {
                                             alert("上传失败，请重试")

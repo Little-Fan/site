@@ -8,9 +8,9 @@
     <td width="15%">
         <!-- 0:正常/ 1:不存在或已删除 / 2:已取消分享/ 3:已过期/ 4:素材已被删除/ 5:用户输入的提取码有误 -->
         {{#equal status 0}}
-            <a style="color: #DFDFDF; text-decoration: underline;" href="{{shortUrl}}" target="_blank">{{name}}</a>
+            <a class="text-underline" style="color: #DFDFDF;" href="{{shortUrl}}" target="_blank">{{name}}</a>
         {{else}}
-            <i style="text-decoration:line-through;">{{name}}</i>
+        <a class="text-underline" style="color: gray;"><i style="text-decoration:line-through;">{{name}}</i></a>
         {{/equal}}
         <!--{{#if expirationTime}}
             <a style="color: #DFDFDF; text-decoration: underline;" href="{{shortUrl}}">{{name}}</a>
@@ -70,7 +70,8 @@
     <div style="position: relative;">
         
         {{#equal status 0}}
-        <a class="urlcopy js-accessCodeCopy" data-accesscode="{{accessCode}}" data-shorturl="{{shortUrl}}" style="color: #1E8873; margin-right: 5px;">复制</a>
+        <a class=" copy-share control1 js-accessCodeCopy" data-accesscode="{{accessCode}}" data-shorturl="{{shortUrl}}"></a>
+        <!--<a class="copy-share control1 js-accessCodeCopy" data-accesscode="{{accessCode}}" data-shorturl="{{shortUrl}}" title="复制短地址和提取码">复制</a>-->
         {{/equal}}
         
 

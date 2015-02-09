@@ -101,10 +101,10 @@ define([
             },
             setIsShowTip: function () {
                 if (this.nolongerTip) {
-                    utility.localStorage.SetGuideViewFlag(true); //不再显示指导视图
+                    utility.localStorage.SetGuideViewFlag('0_0'); //不再显示指导视图
                     this.$('.js-nolongerTip').addClass('check');
                 } else {
-                    utility.localStorage.SetGuideViewFlag(false);
+                    utility.localStorage.SetGuideViewFlag(0);
                     this.$('.js-nolongerTip').removeClass('check');
                 }
             },
@@ -469,9 +469,10 @@ define([
             recreate: function (e) {
                 var el = this.$(e.currentTarget);
                 var taskid = el.data('taskid');
+                var contentid = el.data('contentid');
                 request.put("/ac/transcode/expiration/" + taskid, null, function (res) {
                     el.hide();
-                    el.parent('.setting-icon').append('<i class="trans-download" data-contentid="{{contentId}}" data-taskid="$taskId" title="下载"></i>'.replace('$taskId', taskid));
+                    el.parent('.setting-icon').append('<i class="trans-download" data-contentid="$contentId" data-taskid="$taskId" title="下载"></i>'.replace('$taskId', taskid).replace('$contentId', contentid));
                     el.parents('.js-item').find('.txt').html('还有<b>7</b>天过期');
                     el.remove();
                 });
@@ -497,7 +498,7 @@ define([
                 e && e.stopPropagation() && e.preventDefault();
                 var contentid = this.$(e.target).data('contentid');
                 var data = { contentIds: [contentid], folderCodes: [], creatorCode: utility.localStorage.getUserInfo().info.userCode };
-                var url = ['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/');
+                var url = [config.upLoadRESTfulIp, 'api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/');
                 window.open(url,'_self');
                 
                 //request.download(['/api/download', data.contentIds.join(','), data.folderCodes.join(',') ? data.folderCodes.join(',') : -1, data.creatorCode].join('/'), null, function () { });
@@ -535,6 +536,7 @@ define([
                     return Marionette.TemplateCache.get("mycloud/mycloud-dialog-other");
             }, 
             cancelEl: '.close',
+            keyControl: false,
             initialize: function (options) {
                 options || {};
                 var self = this;
@@ -1052,7 +1054,8 @@ define([
                 this.accessCode = this.accessCode || data.accessCode;
                 this.createLinkSuccess = true;
                 this.$('.js-content').show().not('.link-success').hide();
-                this.$('.address').val(this.shortUrl + '  (提取码:' + this.accessCode + ')');
+                this.$('.address').val(this.shortUrl);
+                this.$(".password-val").val(this.accessCode);
 
                 //warming: zClip组件不能查询 display:none 的DOM节点
                 if (!this.hasRegisted) {

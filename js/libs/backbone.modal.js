@@ -163,7 +163,7 @@
       if (this.active) {
         switch (e.keyCode) {
           case 27:
-            return this.triggerCancel();
+            //return this.triggerCancel();
           case 13:
             return this.triggerSubmit();
         }

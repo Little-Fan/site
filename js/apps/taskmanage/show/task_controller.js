@@ -189,7 +189,7 @@
                         }
                         
                         $.when(deleting).done(function (respone) {
-                            _.each(selectedViews, function(itemView) {
+                            _.each(selectedViews, function (itemView) {
                                 itemView.removeDOM();
                             });
                         });

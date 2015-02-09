@@ -17,6 +17,8 @@
         _.extend(shareController.prototype, {
             
             showShare: function (shortUrl) {
+                // 0:正常/ 1:不存在或已删除 / 2:已取消分享/ 3:已过期/ 4:素材已被删除/ 5:用户输入的提取码有误
+                var status = $('#status', window.parent.document).val();
 
                 /*初始化动画*/
                 var loadingView = new CommonViews.Loading({

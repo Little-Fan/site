@@ -10,19 +10,18 @@
 <div class="fg-content">
     <p>
         <label>用户名</label>
-        <span>female-1990</span>
+        <span id="username">female-1990</span>
     </p>
     <p>
         <label>已验证手机</label>
-        <span>187***9098</span>
-        <a class="fg-phone-btn fg-medium fg-button fg-blue">获取短信验证码</a>
+        <span id="phone">187***9098</span>
+        <input type="button" id="verifyCodeSend" value="点击获取验证码" class="">
     </p>
     <p>
         <label>短信验证码</label>
-        <input type="text" placeholder="验证码" />
+        <input id="verityCode" type="text" placeholder="验证码" />
     </p>
     <p class="btn">
-        <a class="fg-super fg-button fg-blue js-third-prev">上一步</a>
         <a class="fg-super fg-button fg-blue js-second-next">下一步</a>
     </p>
 </div>

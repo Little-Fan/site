@@ -242,9 +242,11 @@
                 this.listenTo(this.collection, "reset", function () {
                     //如果刷新数据 需要触发反选（请在PanelView中查看接收事件）
                     this.selectedItemView = [];
-                    CloudMamManager.trigger('reset:selectedData');
+                    CloudMamManager.trigger('reset:selectedData', this.collection);
                 });
-
+                this.listenTo(this.collection, "remove", function () {
+                    CloudMamManager.trigger('remove:countchange', this.collection);
+                });
             },
             itemEvents: {
                 "transcode:download": "transDownload",
@@ -352,8 +354,16 @@
                     self.selectedView = params;
                 });
 
+                this.listenTo(CloudMamManager, 'remove:countchange', function (collection) {
+
+                    if (collection && collection.models.length == 0) 
+                        this.ui.toggleSelectAll.hide();
+                    else 
+                        this.ui.toggleSelectAll.show();
+                });
+
                 //重置多选状态
-                this.listenTo(CloudMamManager, 'reset:selectedData', function() {
+                this.listenTo(CloudMamManager, 'reset:selectedData', function(collection) {
                     
                     self.selectedView = [];
                     this.ui.alldelete.hide();

@@ -118,7 +118,6 @@
             showForgotPsw: function (options) {
                 var self = Login.Controller;
 
-                
                 var forgetPswLayout = new View.ForgetPswLayout();
                 //请查看上面showRegister方法
                 forgetPswLayout.render();
@@ -129,23 +128,23 @@
                 //registerHeaderView.render();
 
                 var forgetFirstStep = new View.ForgetFirstStep();
-                var forgetSecondStep = new View.ForgetSecondStep();
-                var forgetThirdStep = new View.ForgetThirdStep();
-                var forgetLastStep = new View.ForgetLastStep();
 
-                //CloudMamManager.bodyRegion.show(registerLayout);
-                //registerLayout.headerRegion.show(registerHeaderView);
                 forgetPswLayout.mainRegion.show(forgetFirstStep);
 
-                self.listenTo(forgetFirstStep, "first:nextstep", function() {
+                var forgetSecondStep,forgetThirdStep,forgetLastStep;
+
+                self.listenTo(View, "first:nextstep", function (options) {
+                    forgetSecondStep = new View.ForgetSecondStep(options);
                     forgetPswLayout.mainRegion.show(forgetSecondStep);
                 });
 
-                self.listenTo(forgetSecondStep, "second:nextstep", function () {
+                self.listenTo(View, "second:nextstep", function () {
+                    forgetThirdStep = new View.ForgetThirdStep();
                     forgetPswLayout.mainRegion.show(forgetThirdStep);
                 });
 
-                self.listenTo(forgetThirdStep, "third:nextstep", function () {
+                self.listenTo(View, "third:nextstep", function () {
+                    forgetLastStep = new View.ForgetLastStep();
                     forgetPswLayout.mainRegion.show(forgetLastStep);
                 });
             },

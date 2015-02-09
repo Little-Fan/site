@@ -178,6 +178,7 @@
                             //story播放片段自动选中
                             self.listenTo(leftView, "story:fragement:toggleSelecte", function(model) {
                                 model.toggleSelected();
+                                //story播放滚动定位
                                 CloudMamManager.trigger("story:fragement:toggleSelecte");
                             });
 

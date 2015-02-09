@@ -30,22 +30,12 @@
 
 <td width="20%">
     {{#equal status 1}}
-        <span class="download-transcode control js-download">
-
-        </span>
-        <span class="delete-transcode control js-delete">
-
-        </span>
+        <span class="download-transcode control js-download" title="合成素材下载"></span>
+        <span class="delete-transcode control js-delete" title="合成素材删除"></span>
     {{else}}
-        <span class="error-transcode control js-error">
-
-        </span>
-        <span class="renewal-transcode control js-renewal">
-
-        </span>
-        <span class="delete-transcode control js-delete">
-
-        </span>
+        <span class="error-transcode control js-error" title="合成错误信息"></span>
+        <span class="renewal-transcode control js-renewal" title="重新合成"></span>
+        <span class="delete-transcode control js-delete" title="合成素材删除"></span>
     {{/equal}}
 </td>
 

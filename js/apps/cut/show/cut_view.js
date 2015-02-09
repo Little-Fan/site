@@ -148,7 +148,17 @@
                                 //流媒体地址/入点/出点/合成帧地址/
                                 _.each(self.model.get('entities'), function (itemj) {
                                     if (itemj.contentId == item.get('contentId')) {
-                                        storyArr.push({ model: item, src: itemj.mediaPlayAddress, frameRate: itemj.frameRate, inpoint: item.get('inpoint'), outpoint: item.get('outpoint'), bgsrc: self.cutString(item.get('keyframepath'), item.get('contentId')), name: itemj.name });
+                                        storyArr.push(
+                                            {
+                                                model: item,
+                                                src: itemj.mediaPlayAddress,
+                                                frameRate: itemj.frameRate,
+                                                inpoint: item.get('inpoint'),
+                                                outpoint: item.get('outpoint'),
+                                                bgsrc: self.cutString(itemj.keyFramePath, itemj.contentId),
+                                                name: itemj.name
+                                            }
+                                        );
                                     }
                                 });
                             });
@@ -161,9 +171,9 @@
                         
                     } else {
                         //取消story播放状态
-                        //this.video.isstory = option.storyIsplay;
-                        self.video.pause();
-                        $(".cut-dialog").hide();
+                        self.video.clearStoryStatus();
+                        //self.trigger("story:fragement:toggleSelecte", self.video.lastvideo.model);//已在story回调中执行
+                        //self.trigger('player:ended');
                     }
                 });
             },
@@ -187,7 +197,7 @@
                 "nextBtn": ".rightmove" //下一个
             },
             events: {
-                //轮播事件
+                //画廊轮播事件
                 "click .v_bar ul li": "playVideo",
                 "click .v_area video": "togglePlay"
             },
@@ -362,11 +372,7 @@
                     storyplayended: function(lastvideo) {
                         //story播放完毕
                         self.trigger("story:fragement:toggleSelecte", lastvideo.model);
-                        self.timeline.cleaInOutPoint();
-                        $("#timeLine_bg").removeClass("white");
-                        $(".cut-dialog").hide();
                         this.trigger('player:ended');
-                        self.video.seek(0);
                     }
 
                 });

@@ -1210,11 +1210,11 @@ define(["app", "apps/common/views", "config", "apps/common/utility", "request", 
             },
             onDomRefresh: function () {
                 var flag = utility.localStorage.GetGuideViewFlag();
-                if (flag == 'false' || flag == undefined) {
+                if (flag == 1 || flag == undefined) {
                     //触发指导视图
                     this.trigger('show:giudview');
                     //触发后设置flag
-                    utility.localStorage.SetGuideViewFlag(true);
+                    utility.localStorage.SetGuideViewFlag(0);
                 }
             }
         });

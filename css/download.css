@@ -480,6 +480,10 @@ body {
 .control-panel .crumbs a {
     color: #fff;
 }
+.control-panel .count {
+    float: right;
+    color: #fff;
+}
 
 .control-panel .crumbs b {
     color: #fff;

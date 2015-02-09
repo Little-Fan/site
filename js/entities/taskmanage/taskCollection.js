@@ -171,37 +171,16 @@
 	            return defer.promise();
 
 	        },
-            transcodeDownload: function(model) {
-                //var response = Backbone.ajax({
-                //    url:  config.dcmpRESTfulIp + "/ac/transcode/" + model.get('contentId'),
-                //    type: 'GET'
-                //});
-                //return response.promise();
-
-                return request.get("/ac/transcode/" + model.get('contentId'));
+	        transcodeDownload: function (model) {
+	            return request.get("/ac/transcode/" + model.get('contentId'));
             },
             transcodeDelete: function (id) {
-                //var response = Backbone.ajax({
-                //    url:  config.dcmpRESTfulIp + "/ac/transcode/" + id,
-                //    type: 'DELETE'
-                //});
-                //return response.promise();
                 return request.remove("/ac/transcode", id);
             },
 	        reTranscode: function(model) {
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/transcode/" + model.get('id'),
-	            //    type: 'PUT'
-	            //});
-	            //return response.promise();
 	            return request.put("/ac/transcode/" + model.get('id'));
 	        },
 	        cutActivity: function (model) {
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/activity/" + model.get('id'),
-	            //    type: 'GET'
-	            //});
-	            //return response.promise();
 	            return request.get("/ac/activity/" + model.get('id'));
 	        },
 	        cutUpdate: function (option) {
@@ -209,84 +188,33 @@
 	                name: option.name,
 	                description: option.desc,
 	               };
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/activity/" + option.id,
-	            //    data: JSON.stringify(data),
-	            //    type: 'PUT',
-	            //    contentType: 'application/json;charset=utf-8',
-	            //    dataType: 'JSON'
-	            //});
-	            //return response.promise();
 
 	            return request.put("/ac/activity/" + option.id, data);
 	        },
 	        cutDelete: function (id) {
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/activity/" + id,
-	            //    type: 'DELETE'
-	            //});
-	            //return response.promise();
 	            return request.remove("/ac/activity", id);
 	        },
 	        synthesisReview: function(option) {
-	            //var response = Backbone.ajax({//"/emc/entity/" + model.get("contentID"),
-	            //    url:  config.dcmpRESTfulIp + "/emc/entity/" + option.id,
-	            //    type: 'GET'
-	            //});
-	            //return response.promise();
 
 	            return request.get("/emc/entity/" + option.id);
 	        },
 	        synthesisDelete: function (id) {
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/mixture/" + id,
-	            //    type: 'DELETE'
-	            //});
-	            //return response.promise();
-
 	            return request.remove("/ac/mixture", id);
 	        },
 	        synthesisRedo: function (option) {
-	            //var response = Backbone.ajax({
-	            //    url:  config.dcmpRESTfulIp + "/ac/mixture/" + option.id,
-	            //    type: 'GET'
-	            //});
-	            //return response.promise();
-
 	            return request.get("/ac/mixture/" + option.id);
 	        },
 	        setFavorite: function (option) {
 	            if (option.isFavorite) {
-	               //return Backbone.ajax({
-	               //     url:  config.dcmpRESTfulIp + "/emc/favorite/" + option.contentId,
-	               //     type: 'DELETE'
-	                // });
 	                return request.remove("/emc/favorite", option.contentId);
 	            } else {
-	                //return Backbone.ajax({
-	                //    url:  config.dcmpRESTfulIp + "/emc/favorite/" + option.contentId,
-	                //    type: 'POST',
-	                //    data: JSON.stringify({ contentID: option.contentId }),
-	                //    contentType: 'application/json;charset=utf-8',
-	                //    dataType: 'JSON'
-	                //});
 	                return request.post("/emc/favorite/" + option.contentId, { contentID: option.contentId });
 	            }
 	        },
 	        shareDelete: function (id) {
-	            //var response = Backbone.ajax({
-	            //    url: config.dcmpRESTfulIp + "/emc/share/" + id,
-	            //    type: 'DELETE'
-	            //});
-	            //return response.promise();
 	            return request.remove("/emc/share/", id);
 	        },
 	        shareCancle: function (id) {
-	            //var response = Backbone.ajax({
-	            //    url: config.dcmpRESTfulIp + "/emc/share/" + id,
-	            //    type: 'PUT'
-	            //});
-	            //return response.promise();
 	            return request.put("/emc/share/" + id);
 	        }
 	    };

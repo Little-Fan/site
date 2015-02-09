@@ -137,10 +137,11 @@
                 var self = $(e.currentTarget);
                 var contentInfo = this.getContentIds();
                 var id = this.ui.file.data("id");
-                //var url = config.upLoadRESTfulIp + "/api/getfile/" + id + "/" + contentInfo.arr.join(",");
-                //window.open(url);
+                //config.upLoadRESTfulIp + "/api/download/" + value.ContentID + "/-1/" + self.creatorCode
+                var url = [config.upLoadRESTfulIp, 'api/downloadshare', contentInfo.contentIds.join(',') ? contentInfo.contentIds.join(',') : -1, contentInfo.folderCodes.join(',') ? contentInfo.folderCodes.join(',') : -1, id].join('/');
+                window.open(url, '_self');
 
-                request.download('/api/download/' + id, contentInfo, function(data) {});
+                //request.download('/api/download/' + id, contentInfo, function(data) {});
                 return false;
             },
             save: function(e) {
@@ -153,7 +154,7 @@
                         View.trigger('share:dialog', {
                             list: {
                                 userShareId: $(".file-name").data("id"),
-                                contentIds: contentIds.join(","),
+                                contentIds: contentInfo.contentIds.join(","),
                                 creatorCode: $(".file-name").data("creatorcode")
                             }
                         }); //弹出转存的对话框
@@ -198,6 +199,11 @@
 
         View.ControlPanelView = Marionette.ItemView.extend({
             template: "share/share-control-panel",
+            initialize: function() {
+                this.listenTo(CloudMamManager, 'selected:count', function (count) {
+                    count ? this.$('.count').html(['已选中', count, '个文件/文件夹']) : this.$('.count').html('');
+                });
+            },
             events: {
                 "click a": "navFolder"
             },
@@ -253,11 +259,7 @@
             },
             multiSelect: function(event) {
                 var self = $(event.currentTarget);
-                //如果选中的是文件夹
-                //if (self.hasClass("folder")) {
-                //    alert("不可以选中文件夹")
-                //}
-                //else {
+                var count = 0;
                 if (event.ctrlKey == true) {
                     var fileSizeTotal = 0;
                     self.toggleClass("select");
@@ -265,21 +267,24 @@
                         if ($(this).hasClass('select')) {
                             console.log($(this).find(".thumb").data("filesize"));
                             fileSizeTotal = fileSizeTotal + $(this).find(".thumb").data("filesize");
+                            count++;
                         }
                     });
                     fileSizeTotal = this.bytesToSize(fileSizeTotal);
-                    $("small").text(fileSizeTotal);
+                    //$("small").text(fileSizeTotal);
                 } else {
                     var fileSize = this.bytesToSize(self.find(".thumb").data("filesize"));
                     self.siblings().removeClass("select");
                     self.toggleClass("select");
                     if (self.hasClass("select")) {
-                        $("small").text(fileSize);
+                        //$("small").text(fileSize);
+                        count++;
                     } else {
-                        $("small").text("0 B");
+                        //$("small").text("0 B");
                     }
                 }
-                //}
+
+                CloudMamManager.trigger('selected:count', count);
             },
             enterFolder: function(e) {
                 var data = $(e.currentTarget).data();

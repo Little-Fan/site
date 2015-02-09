@@ -74,23 +74,37 @@ SbVideo.prototype = {
         if (this.playList && this.playList.length > 0 && this.isstory) {
             if (this.playList.length >= (this.playIndex + 1) && this.storyplayed) {
                 self.storyplayed.apply(self.viewObj, [self.playIndex, self.playList[self.playIndex]]);
-                //return;
             } else {
-                //story播放完毕
-                var lastvideo = this.playList[this.playIndex - 1];
-                this.playList = [];
-                this.isstory = false;
-                this.timeline.lockRange = false;
-                this.playIndex = 0;
-                if (this.storyplayended)
-                    this.storyplayended.call(self.viewObj, lastvideo);
-
+                //story播放完毕重置所有状态
+                this.clearStoryStatus();
             }
         }
         this.initPlay();
     },
-    
-    initPlay: function () {
+
+    //重置story状态
+    clearStoryStatus: function () {
+        this.pause();
+        if (this.playIndex < 1 || this.playIndex <= this.playList.length)
+            this.lastvideo = this.playList[this.playIndex];
+        else
+            this.lastvideo = this.playList[this.playIndex - 1];
+        this.playIndex = 0;
+        this.playList = [];
+
+        this.isstory = false;
+        this.timeline.lockRange = false;
+        this.timeline.cleaInOutPoint();
+
+        this.seek(0);
+
+        $("#timeLine_bg").removeClass("white");
+        $(".cut-dialog").hide();
+        if (this.storyplayended)
+            this.storyplayended.call(this.viewObj, this.lastvideo);
+    },
+
+initPlay: function () {
         var self = this;
         var num = 0;
         var timeFunName = null;
@@ -100,24 +114,6 @@ SbVideo.prototype = {
             this.timeline.sbvideoPlayer = this;
         }
 
-        //story Play 
-        //if (this.playList && this.playList.length > 0 && this.isstory) {
-        //    if (this.playList.length >= (this.playIndex + 1) && this.storyplayed) {
-        //        self.storyplayed.apply(self.viewObj, [self.playIndex, self.playList[self.playIndex]]);
-        //        //return;
-        //    } else {
-        //        //story播放完毕
-        //        var lastvideo = this.playList[this.playIndex - 1];
-        //        this.playList = [];
-        //        this.isstory = false;
-        //        this.timeline.lockRange = false;
-        //        this.playIndex = 0;
-        //        if (this.storyplayended)
-        //            this.storyplayended.call(self.viewObj, lastvideo);
-
-        //    }
-        //} 
-        
         this.video.onclick = function () {
             clearTimeout(timeFunName);
             timeFunName = setTimeout(function () {
@@ -291,7 +287,7 @@ SbVideo.prototype.getcurrentframe = function () {
 };
 
 
-//区间播放
+//播放
 SbVideo.prototype._start = function () {
     if (!this.intervalId) {
         this.pause();

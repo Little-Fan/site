@@ -145,7 +145,10 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
             logOut: function(e) {
                 request.post("/uic/logout", null, function() {
                     utility.localStorage.clearSidCookie();
-                    //utility.localStorage.SetGuideViewFlag(false);
+                    if (utility.localStorage.GetGuideViewFlag() == '0_0')
+                        utility.localStorage.SetGuideViewFlag(0);
+                    else if(utility.localStorage.GetGuideViewFlag() == '0')
+                        utility.localStorage.SetGuideViewFlag(1);
                     location.href = 'myspace.html';
                 });
             },
@@ -191,7 +194,10 @@ define(["app", "config", "apps/common/utility", "request", "backbone.syphon", "j
             logOut: function (e) {
                 request.post("/uic/logout", null, function () {
                     utility.localStorage.clearSidCookie();
-                    //utility.localStorage.SetGuideViewFlag(false);
+                    if (utility.localStorage.GetGuideViewFlag() == '0_0')
+                        utility.localStorage.SetGuideViewFlag(0);
+                    else if (utility.localStorage.GetGuideViewFlag() == '0')
+                        utility.localStorage.SetGuideViewFlag(1);
                     location.href = 'myspace.html';
                 });
             },
